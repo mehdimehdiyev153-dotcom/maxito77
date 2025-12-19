@@ -1,140 +1,216 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8" />
-  <title>Maxito | Giriş</title>
+  <meta charset="UTF-8">
+  <title>Maxito</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- NEON STYLE -->
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      background: linear-gradient(180deg, #050b2c, #0b1a4a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       font-family: Arial, sans-serif;
+      background: #0b0b0f;
       color: #fff;
     }
 
-    .card {
-      width: 320px;
-      background: rgba(255,255,255,0.08);
-      padding: 25px;
-      border-radius: 14px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.4);
-      text-align: center;
+    .container {
+      max-width: 420px;
+      margin: auto;
+      padding: 20px;
     }
 
     h1 {
-      margin-bottom: 25px;
-      letter-spacing: 3px;
+      text-align: center;
+      color: #00ffe7;
+      text-shadow: 0 0 15px #00ffe7;
+    }
+
+    .card {
+      background: #111;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,255,231,0.15);
+      margin-bottom: 20px;
     }
 
     input {
       width: 100%;
       padding: 12px;
-      margin-bottom: 12px;
+      margin: 8px 0;
+      border-radius: 10px;
       border: none;
-      border-radius: 8px;
       outline: none;
-      font-size: 15px;
+      background: #1c1c1c;
+      color: #fff;
     }
 
-    button {
+    .btn {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 30px;
       border: none;
-      border-radius: 8px;
-      background: #1f6fff;
-      color: white;
-      font-size: 16px;
       cursor: pointer;
-      margin-top: 8px;
+      font-size: 16px;
+      color: #000;
+      background: linear-gradient(90deg, #00ffe7, #00b3ff);
+      box-shadow: 0 0 15px #00ffe7;
     }
 
-    button:hover {
-      background: #1a5ad7;
+    .btn:hover {
+      opacity: 0.85;
     }
 
-    .msg {
-      margin-top: 15px;
-      font-size: 14px;
-      min-height: 18px;
+    .menu {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .menu button {
+      flex: 1;
+      background: #1b1b1b;
+      color: #00ffe7;
+      border: 1px solid #00ffe7;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 0 10px #00ffe733;
+    }
+
+    .hidden { display: none; }
+
+    .neon-text {
+      color: #00ffe7;
+      text-shadow: 0 0 10px #00ffe7;
     }
   </style>
 </head>
-
 <body>
 
-  <div class="card">
-    <h1>MAXITO</h1>
+<div class="container">
 
-    <input type="email" id="email" placeholder="Email">
+  <h1>MAXITO</h1>
+
+  <!-- LOGIN / REGISTER -->
+  <div id="authBox" class="card">
+    <input type="email" id="email" placeholder="Gmail">
     <input type="password" id="password" placeholder="Şifrə">
-
-    <button onclick="register()">Qeydiyyat</button>
-    <button onclick="login()">Daxil ol</button>
-
-    <div class="msg" id="message"></div>
+    <button class="btn" onclick="register()">Qeydiyyat</button>
+    <button class="btn" onclick="login()">Giriş</button>
+    <p id="authMsg"></p>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+  <!-- MAIN PANEL -->
+  <div id="panel" class="hidden">
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
-      authDomain: "maxito-4a9ba.firebaseapp.com",
-      projectId: "maxito-4a9ba",
-      storageBucket: "maxito-4a9ba.firebasestorage.app",
-      messagingSenderId: "360260172818",
-      appId: "1:360260172818:web:9d766a06c775cd7c64accb"
-    };
+    <div class="card">
+      <p>Xoş gəldin 👋</p>
+      <p>Balans: <span class="neon-text" id="balance">0</span> xal</p>
+    </div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    <div class="menu">
+      <button onclick="showSection('home')">🏠 Home</button>
+      <button onclick="showSection('ref')">👥 Referal</button>
+      <button onclick="showSection('withdraw')">💸 Çıxarış</button>
+    </div>
 
-    // Əgər user artıq login olubsa, birbaşa home-a at
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        window.location.href = "home.html";
-      }
-    });
+    <div id="home" class="card">
+      <p>Tapşırıqları yerinə yetir və xal qazan 💎</p>
+    </div>
 
-    window.register = function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    <div id="ref" class="card hidden">
+      <p>Referal linkin:</p>
+      <p class="neon-text" id="refLink"></p>
+    </div>
 
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          document.getElementById("message").innerText =
-            "Qeydiyyat uğurludur, indi daxil ol";
-        })
-        .catch((error) => {
-          document.getElementById("message").innerText = error.message;
-        });
-    };
+    <div id="withdraw" class="card hidden">
+      <p>Minimum çıxarış: 10 000 xal</p>
+      <button class="btn">Sorğu göndər</button>
+    </div>
 
-    window.login = function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    <button class="btn" onclick="logout()">Çıxış</button>
+  </div>
 
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          // 🔥 BURDA YÖNLƏNDİRMƏ VAR
-          window.location.href = "home.html";
-        })
-        .catch((error) => {
-          document.getElementById("message").innerText = error.message;
-        });
-    };
-  </script>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+  // 🔴 BURANI DƏYİŞ
+  const firebaseConfig = {
+    apiKey: "API_KEY",
+    authDomain: "PROJECT.firebaseapp.com",
+    projectId: "PROJECT_ID",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window.register = async () => {
+    const email = email.value;
+    const pass = password.value;
+    try {
+      const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+      await sendEmailVerification(userCred.user);
+
+      await setDoc(doc(db, "users", userCred.user.uid), {
+        balance: 0,
+        ref: userCred.user.uid.slice(0, 6)
+      });
+
+      authMsg.innerText = "Email doğrulama linki göndərildi 📩";
+    } catch (e) {
+      authMsg.innerText = e.message;
+    }
+  };
+
+  window.login = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email.value, password.value);
+    } catch (e) {
+      authMsg.innerText = e.message;
+    }
+  };
+
+  window.logout = () => signOut(auth);
+
+  onAuthStateChanged(auth, async user => {
+    if (user && user.emailVerified) {
+      authBox.classList.add("hidden");
+      panel.classList.remove("hidden");
+
+      const snap = await getDoc(doc(db, "users", user.uid));
+      balance.innerText = snap.data().balance;
+      refLink.innerText = location.origin + "/?ref=" + snap.data().ref;
+    } else {
+      panel.classList.add("hidden");
+      authBox.classList.remove("hidden");
+    }
+  });
+
+  window.showSection = id => {
+    ["home","ref","withdraw"].forEach(s => document.getElementById(s).classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
+  };
+</script>
 
 </body>
 </html>
