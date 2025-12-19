@@ -1,81 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <title>Phone Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Any Unboxing | Maxito</title>
+
+<style>
+body {
+  margin: 0;
+  background: #f7b500;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.logo-area {
+  margin-top: 50px;
+}
+
+.logo-area img {
+  width: 110px;
+}
+
+.logo-area h2 {
+  margin: 10px 0 30px;
+  font-weight: bold;
+  color: #000;
+}
+
+.container {
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#recaptcha-container {
+  margin-top: 15px;
+}
+</style>
 </head>
 
 <body>
 
-  <h2>Phone Login</h2>
+<div class="logo-area">
+  <!-- BURADA ŞİR LOGOSU -->
+  <img src="lion-logo.png" alt="Maxito Lion Logo">
+  <h2>Maxito</h2>
+</div>
 
-  <input id="phone" placeholder="+994501234567">
-  <button onclick="sendCode()">Send SMS</button>
+<div class="container">
+  <input type="text" id="phone" placeholder="+994501234567">
+  <button id="sendCode">Kod göndər</button>
 
-  <br><br>
+  <input type="text" id="code" placeholder="SMS kodu">
+  <button id="verifyCode">Daxil ol</button>
 
-  <input id="code" placeholder="Verification code">
-  <button onclick="verifyCode()">Verify</button>
-
-  <!-- reCAPTCHA -->
   <div id="recaptcha-container"></div>
+</div>
 
-  <script type="module">
-    // Firebase SDK
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import {
-      getAuth,
-      RecaptchaVerifier,
-      signInWithPhoneNumber
-    } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-    // 🔐 Firebase config (sənin)
-    const firebaseConfig = {
-      apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
-      authDomain: "maxito-1cb81.firebaseapp.com",
-      projectId: "maxito-1cb81",
-      storageBucket: "maxito-1cb81.firebasestorage.app",
-      messagingSenderId: "536049935284",
-      appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
+  authDomain: "maxito-1cb81.firebaseapp.com",
+  projectId: "maxito-1cb81",
+  storageBucket: "maxito-1cb81.firebasestorage.app",
+  messagingSenderId: "536049935284",
+  appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
+};
 
-    // Init
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-    // reCAPTCHA init
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      "recaptcha-container",
-      { size: "normal" }
-    );
+window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+  size: "normal"
+});
 
-    // Send SMS
-    window.sendCode = async () => {
-      const phoneNumber = document.getElementById("phone").value;
-      try {
-        window.confirmationResult = await signInWithPhoneNumber(
-          auth,
-          phoneNumber,
-          window.recaptchaVerifier
-        );
-        alert("SMS code sent");
-      } catch (e) {
-        alert(e.message);
-      }
-    };
+let confirmationResult;
 
-    // Verify code
-    window.verifyCode = async () => {
-      const code = document.getElementById("code").value;
-      try {
-        await window.confirmationResult.confirm(code);
-        alert("Login successful");
-      } catch (e) {
-        alert("Invalid code");
-      }
-    };
-  </script>
+document.getElementById("sendCode").onclick = () => {
+  const phone = document.getElementById("phone").value;
+  signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+    .then(result => {
+      confirmationResult = result;
+      alert("SMS göndərildi");
+    })
+    .catch(err => alert(err.message));
+};
+
+document.getElementById("verifyCode").onclick = () => {
+  const code = document.getElementById("code").value;
+  confirmationResult.confirm(code)
+    .then(() => {
+      alert("Giriş uğurlu");
+      // BURADA istəsən əsas səhifəyə yönləndirə bilərik
+    })
+    .catch(() => alert("Kod yanlışdır"));
+};
+</script>
 
 </body>
 </html>
