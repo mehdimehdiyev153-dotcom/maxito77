@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <title>Maxito</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+
+      /* BACKGROUND */
+      background-image: url("bg.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    /* TOP TITLE */
+    .header {
+      position: absolute;
+      top: 30px;
+      width: 100%;
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    /* CENTER BOX */
+    .container {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px 40px;
+      border-radius: 14px;
+      text-align: center;
+      min-width: 260px;
+    }
+
+    .box p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .login {
+      background: #22c55e;
+      color: #000;
+    }
+
+    .register {
+      background: #3b82f6;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP TEXT -->
+  <div class="header">Maxito</div>
+
+  <!-- CENTER CONTENT -->
+  <div class="container">
+    <div class="box">
+      <p>Xoş gəlmisiniz</p>
+      <a href="#" class="btn login">Daxil ol</a>
+      <a href="#" class="btn register">Qeydiyyatdan keç</a>
+    </div>
+  </div>
+
+</body>
+</html>
