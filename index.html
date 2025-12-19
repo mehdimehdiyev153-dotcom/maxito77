@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="az">
 <head>
   <meta charset="UTF-8">
-  <title>Maxito</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maxito</title>
 
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     body {
@@ -24,71 +24,65 @@
 
     .container {
       width: 100%;
-      height: 100%;
-      padding: 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      max-width: 420px;
       text-align: center;
+      padding: 40px 20px;
     }
 
     /* YUXARI */
     .logo {
       font-size: 36px;
       font-weight: bold;
-      letter-spacing: 2px;
+      margin-bottom: 50px;
+      opacity: 0.85;
     }
 
     /* ORTA */
-    .welcome {
-      margin-top: -40px;
-    }
-
     .welcome h2 {
-      font-size: 28px;
-      margin-bottom: 15px;
+      font-size: 24px;
+      margin-bottom: 10px;
     }
 
     .welcome p {
-      font-size: 16px;
-      opacity: 0.9;
-    }
-
-    /* AŞAĞI */
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      font-size: 15px;
+      opacity: 0.8;
       margin-bottom: 40px;
     }
 
+    /* AŞAĞI */
     .buttons a {
+      display: block;
+      width: 100%;
       padding: 15px;
+      margin-bottom: 15px;
       border-radius: 30px;
-      font-size: 18px;
       text-decoration: none;
-      color: #fff;
-      cursor: pointer;
-      pointer-events: auto;
+      font-size: 16px;
+      font-weight: bold;
       transition: 0.3s;
     }
 
     .login {
       background: #00c6ff;
+      color: #000;
+    }
+
+    .login:hover {
+      background: #00a8d6;
     }
 
     .register {
-      background: #f7971e;
+      background: #ff9800;
+      color: #000;
     }
 
-    .buttons a:active {
-      transform: scale(0.97);
+    .register:hover {
+      background: #e68900;
     }
   </style>
 </head>
 
 <body>
-
   <div class="container">
 
     <!-- YUXARI -->
@@ -96,27 +90,16 @@
 
     <!-- ORTA -->
     <div class="welcome">
-      <h2>Welcome</h2>
-      <p>Login or register to continue</p>
+      <h2>Xoş gəlmisiniz</h2>
+      <p>Bir kliklə daxil olun və ya qeydiyyatdan keçin</p>
     </div>
 
     <!-- AŞAĞI -->
     <div class="buttons">
-      <a class="login" onclick="loginTest()">Login</a>
-      <a class="register" onclick="registerTest()">Register</a>
+      <a href="login.html" class="login">Giriş</a>
+      <a href="register.html" class="register">Qeydiyyatdan keçin</a>
     </div>
 
   </div>
-
-  <script>
-    function loginTest() {
-      alert("Login button works ✅");
-    }
-
-    function registerTest() {
-      alert("Register button works ✅");
-    }
-  </script>
-
 </body>
 </html>
