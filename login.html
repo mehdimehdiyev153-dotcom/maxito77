@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giriş | Maxito</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(0,0,0,0.35);
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      background: #fff;
+      color: #333;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ddd;
+    }
+
+    .back {
+      margin-top: 15px;
+      display: block;
+      color: #fff;
+      text-decoration: underline;
+      font-size: 14px;
+    }
+
+    .error {
+      color: #ffb3b3;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Giriş</h2>
+
+    <input type="email" id="email" placeholder="E-poçt">
+    <input type="password" id="password" placeholder="Şifrə">
+
+    <button onclick="login()">Daxil ol</button>
+
+    <div class="error" id="error"></div>
+
+    <a href="index.html" class="back">← Geri qayıt</a>
+  </div>
+
+  <!-- 🔥 FIREBASE LOGIN SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
+      authDomain: "maxito-1cb81.firebaseapp.com",
+      projectId: "maxito-1cb81",
+      storageBucket: "maxito-1cb81.firebasestorage.app",
+      messagingSenderId: "536049935284",
+      appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorDiv = document.getElementById("error");
+
+      if (!email || !password) {
+        errorDiv.textContent = "Bütün xanaları doldur";
+        return;
+      }
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          // ✅ uğurlu giriş
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          errorDiv.textContent = "Giriş alınmadı: " + error.message;
+        });
+    }
+  </script>
+
+</body>
+</html>
