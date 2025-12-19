@@ -60,6 +60,7 @@
     .msg {
       margin-top: 15px;
       font-size: 14px;
+      min-height: 18px;
     }
   </style>
 </head>
@@ -83,7 +84,8 @@
     import {
       getAuth,
       createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
+      signInWithEmailAndPassword,
+      onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -98,6 +100,13 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // Əgər user artıq login olubsa, birbaşa home-a at
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = "home.html";
+      }
+    });
+
     window.register = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
@@ -105,11 +114,10 @@
       createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
           document.getElementById("message").innerText =
-            "Qeydiyyat uğurludur ✅";
+            "Qeydiyyat uğurludur, indi daxil ol";
         })
         .catch((error) => {
-          document.getElementById("message").innerText =
-            error.message;
+          document.getElementById("message").innerText = error.message;
         });
     };
 
@@ -119,12 +127,11 @@
 
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-          document.getElementById("message").innerText =
-            "Giriş uğurludur 🎉";
+          // 🔥 BURDA YÖNLƏNDİRMƏ VAR
+          window.location.href = "home.html";
         })
         .catch((error) => {
-          document.getElementById("message").innerText =
-            error.message;
+          document.getElementById("message").innerText = error.message;
         });
     };
   </script>
