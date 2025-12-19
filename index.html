@@ -2,108 +2,100 @@
 <html lang="az">
 <head>
   <meta charset="UTF-8">
-  <title>Giriş</title>
+  <title>Maxito – Giriş</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,#0a1a3c,#08162e);
+      font-family:Arial,sans-serif;
     }
-    .box {
-      background: #fff;
-      padding: 20px;
-      width: 100%;
-      max-width: 350px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,.1);
+    .card{
+      background:#fff;
+      padding:25px;
+      border-radius:12px;
+      width:100%;
+      max-width:360px;
+      box-shadow:0 10px 30px rgba(0,0,0,.3);
     }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
+    h2{text-align:center;margin-bottom:20px;}
+    input{
+      width:100%;
+      padding:12px;
+      margin-bottom:12px;
+      border-radius:8px;
+      border:1px solid #ccc;
+      font-size:15px;
     }
-    button {
-      background: #4285f4;
-      color: #fff;
-      border: none;
-      cursor: pointer;
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
+      margin-top:8px;
     }
-    button:hover {
-      background: #3367d6;
-    }
-    p {
-      color: red;
-      margin-top: 10px;
-    }
+    .login{background:#2563eb;color:#fff;}
+    .register{background:#3b82f6;color:#fff;}
+    .error{color:red;text-align:center;margin-top:10px;}
   </style>
 </head>
+
 <body>
 
-<div class="box">
-  <h2>Giriş / Qeydiyyat</h2>
+  <div class="card">
+    <h2>Giriş / Qeydiyyat</h2>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Şifrə">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Şifrə">
 
-  <button onclick="login()">Giriş</button>
-  <button onclick="register()">Qeydiyyat</button>
+    <button class="login" id="loginBtn">Giriş</button>
+    <button class="register" id="registerBtn">Qeydiyyat</button>
 
-  <p id="msg"></p>
-</div>
+    <div class="error" id="error"></div>
+  </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  <!-- HƏR ŞEY EYNİ MODULE İÇİNDƏ -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-  // 🔴 BURANI ÖZ FİREBASE CONFIG-İN İLƏ DƏYİŞ
-  const firebaseConfig = {
-    apiKey: "BURAYA_API_KEY",
-    authDomain: "BURAYA_AUTH_DOMAIN",
-    projectId: "BURAYA_PROJECT_ID",
-    appId: "BURAYA_APP_ID"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
+      authDomain: "maxito-4a9ba.firebaseapp.com",
+      projectId: "maxito-4a9ba",
+      storageBucket: "maxito-4a9ba.appspot.com",
+      messagingSenderId: "360260172818",
+      appId: "1:360260172818:web:9d766a06c775cd7c64accb"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  window.login = function () {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const errorBox = document.getElementById("error");
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        document.getElementById("msg").style.color = "green";
-        document.getElementById("msg").innerText = "Uğurla daxil oldun ✅";
-        // burda yönləndirmə edə bilərsən:
-        // window.location.href = "home.html";
-      })
-      .catch(err => {
-        document.getElementById("msg").innerText = err.message;
-      });
-  };
+    document.getElementById("loginBtn").onclick = () => {
+      const email = email.value;
+      const password = password.value;
 
-  window.register = function () {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Uğurla giriş edildi"))
+        .catch(e => errorBox.textContent = e.message);
+    };
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        document.getElementById("msg").style.color = "green";
-        document.getElementById("msg").innerText = "Qeydiyyat tamamlandı ✅";
-      })
-      .catch(err => {
-        document.getElementById("msg").innerText = err.message;
-      });
-  };
-</script>
+    document.getElementById("registerBtn").onclick = () => {
+      const email = email.value;
+      const password = password.value;
 
-</body>
-</html>
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => alert("
