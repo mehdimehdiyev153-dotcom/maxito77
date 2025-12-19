@@ -1,109 +1,97 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <title>Qeydiyyat | Maxito</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Qeydiyyat | Maxito</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body{
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background:linear-gradient(135deg,#667eea,#764ba2);
-      font-family:Arial,sans-serif;
-    }
-    .box{
-      background:#fff;
-      padding:30px;
-      width:100%;
-      max-width:360px;
-      border-radius:10px;
-      box-shadow:0 10px 30px rgba(0,0,0,.2);
-    }
-    h2{text-align:center;margin-bottom:15px}
-    input,button{
-      width:100%;
-      padding:12px;
-      margin-top:10px;
-      border-radius:5px;
-      border:1px solid #ccc;
-      font-size:15px;
-    }
-    button{
-      background:#667eea;
-      color:#fff;
-      border:none;
-      cursor:pointer;
-      font-weight:bold;
-    }
-    button:hover{opacity:.9}
-  </style>
+<style>
+body{
+  background:#FFC107;
+  font-family:Arial,sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:#fff;
+  width:100%;
+  max-width:380px;
+  padding:25px;
+  border-radius:12px;
+}
+h2{text-align:center;margin-bottom:20px}
+input,button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  font-size:15px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+button{
+  background:#FFC107;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+}
+</style>
 </head>
 
 <body>
 
 <div class="box">
-  <h2>Qeydiyyat</h2>
+<h2>Qeydiyyat</h2>
 
-  <input type="text" id="name" placeholder="Ad">
-  <input type="text" id="surname" placeholder="Soyad">
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Şifrə (min 6 simvol)">
+<input type="email" id="email" placeholder="Gmail ünvanınız">
+<input type="password" id="password" placeholder="Şifrə">
+<input type="password" id="password2" placeholder="Şifrəni təkrar yazın">
 
-  <button onclick="register()">Qeydiyyatdan keç</button>
+<button onclick="register()">Qeydiyyatdan keç</button>
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword } 
-    from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc } 
-    from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification }
+from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
-    authDomain: "maxito-1cb81.firebaseapp.com",
-    projectId: "maxito-1cb81",
-    storageBucket: "maxito-1cb81.firebasestorage.app",
-    messagingSenderId: "536049935284",
-    appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
+  authDomain: "maxito-1cb81.firebaseapp.com",
+  projectId: "maxito-1cb81",
+  storageBucket: "maxito-1cb81.firebasestorage.app",
+  messagingSenderId: "536049935284",
+  appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  window.register = async function(){
-    const name = document.getElementById("name").value;
-    const surname = document.getElementById("surname").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+window.register = async function(){
+  const email = email.value;
+  const pass = password.value;
+  const pass2 = password2.value;
 
-    if(!name || !surname || !email || !password){
-      alert("Bütün xanaları doldur");
-      return;
-    }
-
-    try {
-      const userCred = await createUserWithEmailAndPassword(auth, email, password);
-      const uid = userCred.user.uid;
-
-      await setDoc(doc(db, "users", uid), {
-        name: name,
-        surname: surname,
-        email: email,
-        createdAt: new Date()
-      });
-
-      alert("Qeydiyyat uğurla tamamlandı 🎉");
-      window.location.href = "login.html";
-
-    } catch (error) {
-      alert(error.message);
-    }
+  if(!email || !pass || !pass2){
+    alert("Bütün xanaları doldur");
+    return;
   }
+  if(pass !== pass2){
+    alert("Şifrələr eyni deyil");
+    return;
+  }
+
+  try{
+    const userCred = await createUserWithEmailAndPassword(auth,email,pass);
+    await sendEmailVerification(userCred.user);
+
+    alert("Emailinizə təsdiq kodu göndərildi 📩");
+    window.location.href = "login.html";
+  }catch(e){
+    alert(e.message);
+  }
+}
 </script>
 
 </body>
