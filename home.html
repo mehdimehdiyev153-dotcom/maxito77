@@ -2,181 +2,119 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>MAXITO | Home</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<title>Maxito | Qazan</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-
-body{
-  background:radial-gradient(circle at top,#0a1a3a,#020617);
-  color:#fff;
-  min-height:100vh;
-  display:flex;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #0b1d3a, #050b18);
+  color: #fff;
 }
 
-/* SIDEBAR */
-.sidebar{
-  width:230px;
-  background:#020b25;
-  padding:25px 15px;
-  display:flex;
-  flex-direction:column;
-  gap:25px;
+/* Header */
+.header {
+  text-align: center;
+  padding: 30px 15px 20px;
 }
 
-.logo{
-  font-size:26px;
-  font-weight:900;
-  text-align:center;
-  color:#4ea1ff;
-  text-shadow:0 0 20px #4ea1ff;
-  animation:neonPulse 3s infinite;
+.header h1 {
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #00eaff;
+  text-shadow: 0 0 15px rgba(0,234,255,0.8);
 }
 
-@keyframes neonPulse{
-  0%{text-shadow:0 0 10px #4ea1ff}
-  50%{text-shadow:0 0 30px #4ea1ff}
-  100%{text-shadow:0 0 10px #4ea1ff}
+/* Menu Container */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 20px;
+  max-width: 420px;
+  margin: auto;
 }
 
-.menu a{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px 15px;
-  color:#cfd8ff;
-  text-decoration:none;
-  border-radius:10px;
-  transition:.3s;
+/* Button Card */
+.menu-btn {
+  background: linear-gradient(135deg, #0f2b5c, #08162f);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0,234,255,0.15);
+  transition: 0.3s ease;
+  border: 1px solid rgba(0,234,255,0.3);
 }
 
-.menu a:hover,.menu a.active{
-  background:linear-gradient(90deg,#1b4fff,#3aa0ff);
-  box-shadow:0 0 15px rgba(58,160,255,.6);
+.menu-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 30px rgba(0,234,255,0.6);
 }
 
-.logout{
-  margin-top:auto;
-  background:none;
-  border:1px solid #ff4e4e;
-  color:#ff4e4e;
-  padding:12px;
-  border-radius:10px;
-  cursor:pointer;
-}
-.logout:hover{
-  background:#ff4e4e;
-  color:#fff;
+/* Icon */
+.menu-btn span {
+  font-size: 42px;
+  display: block;
+  margin-bottom: 10px;
 }
 
-/* MAIN */
-.main{flex:1;padding:30px}
-
-.welcome{font-size:22px;margin-bottom:25px}
-
-/* CARDS */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-  margin-bottom:30px;
+/* Title */
+.menu-btn h2 {
+  margin: 5px 0;
+  font-size: 22px;
+  font-weight: 700;
 }
 
-.card{
-  background:rgba(255,255,255,.05);
-  border-radius:16px;
-  padding:20px;
-  transition:.3s;
+/* Description */
+.menu-btn p {
+  font-size: 14px;
+  opacity: 0.85;
 }
 
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 0 25px rgba(78,161,255,.6);
-}
-
-.card h3{font-size:15px;color:#9bb7ff;margin-bottom:10px}
-.card p{font-size:30px;font-weight:bold}
-
-/* QAZANC CARD */
-.earn{
-  border:1px solid #2aff9e;
-  box-shadow:0 0 20px rgba(42,255,158,.4);
-}
-.earn p{
-  color:#2aff9e;
-}
-
-/* ACTIVITY */
-.activity{
-  background:rgba(255,255,255,.05);
-  border-radius:16px;
-  padding:20px;
-}
-.activity h3{color:#9bb7ff;margin-bottom:10px}
-.activity ul{list-style:none;font-size:14px}
-.activity li{margin-bottom:8px}
-
-@media(max-width:768px){
- body{flex-direction:column}
- .sidebar{width:100%;flex-direction:row;justify-content:space-around}
- .logo,.logout{display:none}
+/* Footer Balance */
+.balance {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 16px;
+  opacity: 0.9;
 }
 </style>
 </head>
 
 <body>
 
-<div class="sidebar">
-  <div class="logo">MAXITO</div>
-
-  <div class="menu">
-    <a class="active"><span class="material-icons">home</span>Home</a>
-    <a><span class="material-icons">emoji_events</span>Qazanc</a>
-    <a><span class="material-icons">groups</span>Referal</a>
-    <a><span class="material-icons">settings</span>Ayarlar</a>
-  </div>
-
-  <button class="logout" onclick="logout()">Çıxış</button>
+<div class="header">
+  <h1>MAXITO</h1>
 </div>
 
-<div class="main">
-  <div class="welcome">Xoş gəldin 👋</div>
+<div class="menu">
 
-  <div class="cards">
-    <div class="card">
-      <h3>Toplanan Xallar</h3>
-      <p>1200</p>
-    </div>
-
-    <div class="card earn">
-      <h3>Bu gün qazandın</h3>
-      <p>+120</p>
-    </div>
-
-    <div class="card">
-      <h3>Ümumi qazanc</h3>
-      <p>3450</p>
-    </div>
+  <div class="menu-btn" onclick="alert('Anketlər bölməsi açılacaq')">
+    <span>📝</span>
+    <h2>Anketləri Doldur</h2>
+    <p>5–10 dəqiqə • Yüksək xal</p>
   </div>
 
-  <div class="activity">
-    <h3>Son aktivliklər</h3>
-    <ul>
-      <li>✔ Giriş edildi</li>
-      <li>✔ 120 xal qazandın</li>
-      <li>✔ Referal aktivdir</li>
-    </ul>
+  <div class="menu-btn" onclick="alert('Reklam bölməsi açılacaq')">
+    <span>📺</span>
+    <h2>Reklam İzlə</h2>
+    <p>Asan tapşırıq • Gündəlik bonus</p>
   </div>
+
+  <div class="menu-btn" onclick="alert('Oyunlar bölməsi açılacaq')">
+    <span>🎮</span>
+    <h2>Oyun Yüklə & Oyna</h2>
+    <p>Ən çox xal qazandıran</p>
+  </div>
+
 </div>
 
-<script>
-function logout(){
-  window.location.href="index.html";
-}
-</script>
+<div class="balance">
+  💎 Balans: <strong>0 Xal</strong>
+</div>
 
 </body>
 </html>
