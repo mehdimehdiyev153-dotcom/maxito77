@@ -1,134 +1,127 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Giriş | Maxito</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maxito | Giriş</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+}
 
-    body {
-      height: 100vh;
-      background: linear-gradient(135deg, #4e54c8, #8f94fb);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
+body{
+  margin:0;
+  height:100vh;
+  background:#040a2a; /* TAM TÜND GÖY */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-    .container {
-      background: rgba(0,0,0,0.35);
-      padding: 30px;
-      border-radius: 15px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-    }
+.app{
+  width:100%;
+  max-width:420px;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-    h2 {
-      margin-bottom: 20px;
-    }
+.card{
+  width:90%;
+  background:rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:44px 26px;
+  text-align:center;
+  backdrop-filter:blur(14px);
+  box-shadow:0 25px 60px rgba(0,0,0,.65);
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-    }
+/* MAXITO LOGO */
+.logo{
+  font-size:48px;
+  font-weight:900;
+  color:#fff;
+  margin-bottom:32px;
+  letter-spacing:1.5px;
+  text-shadow:
+    0 2px 0 #cfd6ff,
+    0 4px 0 #9aa6ff,
+    0 6px 0 #6f7cff,
+    0 10px 18px rgba(0,0,0,.8);
+}
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      border-radius: 10px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      background: #fff;
-      color: #333;
-      transition: 0.3s;
-    }
+/* INPUTLAR */
+input{
+  width:100%;
+  padding:16px;
+  margin-bottom:18px;
+  border-radius:16px;
+  border:none;
+  font-size:16px;
+  outline:none;
+}
 
-    button:hover {
-      background: #ddd;
-    }
+input::placeholder{
+  color:#666;
+}
 
-    .back {
-      margin-top: 15px;
-      display: block;
-      color: #fff;
-      text-decoration: underline;
-      font-size: 14px;
-    }
+/* DAXİL OL BUTTON */
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:18px;
+  font-size:17px;
+  font-weight:700;
+  background:#ffffff;
+  color:#000;
+  cursor:pointer;
+}
 
-    .error {
-      color: #ffb3b3;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-  </style>
+button:active{
+  transform:scale(.97);
+}
+
+/* ALT YAZI */
+.footer-text{
+  margin-top:22px;
+  font-size:14px;
+  color:#d0d6ff;
+}
+
+.footer-text a{
+  color:#ffffff;
+  font-weight:600;
+  text-decoration:none;
+}
+</style>
 </head>
 
 <body>
+  <div class="app">
+    <div class="card">
 
-  <div class="container">
-    <h2>Giriş</h2>
+      <div class="logo">Maxito</div>
 
-    <input type="email" id="email" placeholder="E-poçt">
-    <input type="password" id="password" placeholder="Şifrə">
+      <!-- TELEFON NÖMRƏSİ -->
+      <input type="tel" placeholder="Telefon nömrəsi (+994...)" />
 
-    <button onclick="login()">Daxil ol</button>
+      <!-- ŞİFRƏ -->
+      <input type="password" placeholder="Şifrə" />
 
-    <div class="error" id="error"></div>
+      <!-- DAXİL OL -->
+      <button>Daxil ol</button>
 
-    <a href="index.html" class="back">← Geri qayıt</a>
+      <!-- QEYDİYYAT YAZISI -->
+      <div class="footer-text">
+        Hesabınız yoxdursa,
+        <a href="register.html">qeydiyyatdan keçin</a>
+      </div>
+
+    </div>
   </div>
-
-  <!-- 🔥 FIREBASE LOGIN SCRIPT -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
-      authDomain: "maxito-1cb81.firebaseapp.com",
-      projectId: "maxito-1cb81",
-      storageBucket: "maxito-1cb81.firebasestorage.app",
-      messagingSenderId: "536049935284",
-      appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    window.login = function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const errorDiv = document.getElementById("error");
-
-      if (!email || !password) {
-        errorDiv.textContent = "Bütün xanaları doldur";
-        return;
-      }
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          // ✅ uğurlu giriş
-          window.location.href = "index.html";
-        })
-        .catch((error) => {
-          errorDiv.textContent = "Giriş alınmadı: " + error.message;
-        });
-    }
-  </script>
-
 </body>
 </html>
