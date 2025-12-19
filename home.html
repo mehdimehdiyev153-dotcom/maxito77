@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maxito | Qazan</title>
+<title>Maxito | Home</title>
 
 <style>
 body {
@@ -16,7 +16,7 @@ body {
 /* Header */
 .header {
   text-align: center;
-  padding: 30px 15px 20px;
+  padding: 25px 15px;
 }
 
 .header h1 {
@@ -24,62 +24,83 @@ body {
   font-weight: 900;
   letter-spacing: 2px;
   color: #00eaff;
-  text-shadow: 0 0 15px rgba(0,234,255,0.8);
+  text-shadow: 0 0 18px rgba(0,234,255,0.9);
 }
 
-/* Menu Container */
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+/* Balance Card */
+.balance-card {
+  max-width: 420px;
+  margin: 0 auto 25px;
+  background: linear-gradient(135deg, #102f5f, #07162f);
+  border-radius: 20px;
   padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0,234,255,0.3);
+}
+
+.balance-card h2 {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+.balance-card .points {
+  font-size: 32px;
+  font-weight: 800;
+  margin-top: 8px;
+  color: #00ffcc;
+  text-shadow: 0 0 12px rgba(0,255,204,0.8);
+}
+
+/* Menu */
+.menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  padding: 0 20px;
   max-width: 420px;
   margin: auto;
 }
 
-/* Button Card */
 .menu-btn {
   background: linear-gradient(135deg, #0f2b5c, #08162f);
-  border-radius: 20px;
-  padding: 25px;
+  border-radius: 18px;
+  padding: 22px 15px;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(0,234,255,0.15);
-  transition: 0.3s ease;
-  border: 1px solid rgba(0,234,255,0.3);
+  box-shadow: 0 0 18px rgba(0,234,255,0.2);
+  transition: 0.3s;
+  border: 1px solid rgba(0,234,255,0.25);
 }
 
 .menu-btn:hover {
-  transform: scale(1.04);
+  transform: scale(1.05);
   box-shadow: 0 0 30px rgba(0,234,255,0.6);
 }
 
-/* Icon */
 .menu-btn span {
-  font-size: 42px;
+  font-size: 36px;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
-/* Title */
-.menu-btn h2 {
-  margin: 5px 0;
-  font-size: 22px;
-  font-weight: 700;
-}
-
-/* Description */
 .menu-btn p {
+  margin: 0;
   font-size: 14px;
-  opacity: 0.85;
+  font-weight: 600;
 }
 
-/* Footer Balance */
-.balance {
+/* Full width buttons */
+.full {
+  grid-column: span 2;
+}
+
+/* Footer */
+.footer {
   text-align: center;
-  margin: 30px 0;
-  font-size: 16px;
-  opacity: 0.9;
+  margin: 35px 0 25px;
+  font-size: 13px;
+  opacity: 0.7;
 }
 </style>
 </head>
@@ -90,30 +111,44 @@ body {
   <h1>MAXITO</h1>
 </div>
 
+<!-- BALANCE -->
+<div class="balance-card">
+  <h2>Toplanan Xallar</h2>
+  <div class="points">0 XAL</div>
+</div>
+
+<!-- MENU -->
 <div class="menu">
 
   <div class="menu-btn" onclick="alert('Anketlər bölməsi açılacaq')">
     <span>📝</span>
-    <h2>Anketləri Doldur</h2>
-    <p>5–10 dəqiqə • Yüksək xal</p>
+    <p>Anketlər</p>
   </div>
 
   <div class="menu-btn" onclick="alert('Reklam bölməsi açılacaq')">
     <span>📺</span>
-    <h2>Reklam İzlə</h2>
-    <p>Asan tapşırıq • Gündəlik bonus</p>
+    <p>Reklam İzlə</p>
   </div>
 
   <div class="menu-btn" onclick="alert('Oyunlar bölməsi açılacaq')">
     <span>🎮</span>
-    <h2>Oyun Yüklə & Oyna</h2>
-    <p>Ən çox xal qazandıran</p>
+    <p>Oyun Yüklə</p>
+  </div>
+
+  <div class="menu-btn" onclick="alert('Referal bölməsi açılacaq')">
+    <span>👥</span>
+    <p>Referal</p>
+  </div>
+
+  <div class="menu-btn full" onclick="alert('Çıxarış bölməsi açılacaq')">
+    <span>💸</span>
+    <p>Çıxarış Et</p>
   </div>
 
 </div>
 
-<div class="balance">
-  💎 Balans: <strong>0 Xal</strong>
+<div class="footer">
+  © 2025 Maxito • Bütün hüquqlar qorunur
 </div>
 
 </body>
