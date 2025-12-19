@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maxito</title>
+  <title>Maxito | Daxil ol</title>
 
   <style>
     * {
@@ -15,7 +15,7 @@
 
     body {
       height: 100vh;
-      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      background: #0b1c2d; /* TÜND GÖY */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -23,43 +23,71 @@
     }
 
     .container {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 30px;
-      border-radius: 15px;
-      width: 90%;
-      max-width: 400px;
+      width: 100%;
+      max-width: 360px;
+      padding: 20px;
       text-align: center;
     }
 
     h1 {
-      margin-bottom: 20px;
+      font-size: 36px;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
     }
 
-    .lang-select {
-      margin-bottom: 20px;
+    h2 {
+      font-size: 18px;
+      margin-bottom: 30px;
+      font-weight: normal;
+      opacity: 0.9;
     }
 
-    select {
-      padding: 8px;
-      border-radius: 8px;
+    .input-box {
+      background: #fff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      padding: 14px;
+      margin-bottom: 15px;
+    }
+
+    .input-box input {
       border: none;
       outline: none;
+      width: 100%;
+      font-size: 15px;
     }
 
-    a.button {
-      display: block;
-      text-decoration: none;
-      background: #fff;
-      color: #333;
-      padding: 12px;
-      margin: 10px 0;
+    .login-btn {
+      background: #000;
+      color: #fff;
+      padding: 15px;
       border-radius: 10px;
-      font-weight: bold;
-      transition: 0.3s;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
     }
 
-    a.button:hover {
-      background: #ddd;
+    .login-btn:hover {
+      opacity: 0.9;
+    }
+
+    .forgot {
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+    .register {
+      margin-top: 25px;
+      font-size: 14px;
+    }
+
+    .register a {
+      color: #4da6ff;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -68,37 +96,29 @@
 
   <div class="container">
     <h1>Maxito</h1>
+    <h2>Daxil ol</h2>
 
-    <!-- Dil seçimi -->
-    <div class="lang-select">
-      <select>
-        <option>AZ</option>
-        <option>EN</option>
-        <option>RU</option>
-      </select>
+    <div class="input-box">
+      <input type="email" placeholder="Email adresiniz">
     </div>
 
-    <!-- Düymələr -->
-    <a href="login.html" class="button">Giriş</a>
-    <a href="register.html" class="button">Qeydiyyatdan keç</a>
+    <div class="input-box">
+      <input type="password" placeholder="Parolunuz">
+    </div>
+
+    <div class="login-btn">
+      Daxil ol
+    </div>
+
+    <div class="forgot">
+      Parolunuzu tapın
+    </div>
+
+    <div class="register">
+      Hələ hesabınız yoxdur?  
+      <a href="register.html">Qeydiyyatdan keçin</a>
+    </div>
   </div>
-
-  <!-- 🔥 FIREBASE SCRIPT (ƏLAVƏ OLUNDU) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
-      authDomain: "maxito-1cb81.firebaseapp.com",
-      projectId: "maxito-1cb81",
-      storageBucket: "maxito-1cb81.firebasestorage.app",
-      messagingSenderId: "536049935284",
-      appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    console.log("Firebase qoşuldu ✅");
-  </script>
 
 </body>
 </html>
