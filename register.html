@@ -18,23 +18,25 @@
       background:#fff;
       padding:30px;
       width:100%;
-      max-width:350px;
+      max-width:360px;
       border-radius:10px;
       box-shadow:0 10px 30px rgba(0,0,0,.2);
     }
-    h2{text-align:center;margin-bottom:20px}
+    h2{text-align:center;margin-bottom:15px}
     input,button{
       width:100%;
       padding:12px;
       margin-top:10px;
       border-radius:5px;
       border:1px solid #ccc;
+      font-size:15px;
     }
     button{
       background:#667eea;
       color:#fff;
       border:none;
       cursor:pointer;
+      font-weight:bold;
     }
     button:hover{opacity:.9}
   </style>
@@ -44,15 +46,21 @@
 
 <div class="box">
   <h2>Qeydiyyat</h2>
+
+  <input type="text" id="name" placeholder="Ad">
+  <input type="text" id="surname" placeholder="Soyad">
   <input type="email" id="email" placeholder="Email">
   <input type="password" id="password" placeholder="Şifrə (min 6 simvol)">
-  <button onclick="register()">Qeydiyyat</button>
+
+  <button onclick="register()">Qeydiyyatdan keç</button>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword } 
-  from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+    from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc } 
+    from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
@@ -65,19 +73,36 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
-  window.register = function(){
+  window.register = async function(){
+    const name = document.getElementById("name").value;
+    const surname = document.getElementById("surname").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        alert("Qeydiyyat uğurludur 🎉");
-        window.location.href = "giriş.html";
-      })
-      .catch(error => {
-        alert(error.message);
+    if(!name || !surname || !email || !password){
+      alert("Bütün xanaları doldur");
+      return;
+    }
+
+    try {
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCred.user.uid;
+
+      await setDoc(doc(db, "users", uid), {
+        name: name,
+        surname: surname,
+        email: email,
+        createdAt: new Date()
       });
+
+      alert("Qeydiyyat uğurla tamamlandı 🎉");
+      window.location.href = "login.html";
+
+    } catch (error) {
+      alert(error.message);
+    }
   }
 </script>
 
