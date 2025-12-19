@@ -1,80 +1,96 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <title>Maxito – Giriş</title>
+  <meta charset="UTF-8" />
+  <title>Maxito | Giriş</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body{
-      margin:0;
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg,#0a1a3c,#08162e);
-      font-family:Arial,sans-serif;
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, #050b2c, #0b1a4a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      color: #fff;
     }
-    .card{
-      background:#fff;
-      padding:25px;
-      border-radius:12px;
-      width:100%;
-      max-width:360px;
-      box-shadow:0 10px 30px rgba(0,0,0,.3);
+
+    .card {
+      width: 320px;
+      background: rgba(255,255,255,0.08);
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+      text-align: center;
     }
-    h2{text-align:center;margin-bottom:20px;}
-    input{
-      width:100%;
-      padding:12px;
-      margin-bottom:12px;
-      border-radius:8px;
-      border:1px solid #ccc;
-      font-size:15px;
+
+    h1 {
+      margin-bottom: 25px;
+      letter-spacing: 3px;
     }
-    button{
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:8px;
-      font-size:16px;
-      cursor:pointer;
-      margin-top:8px;
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 15px;
     }
-    .login{background:#2563eb;color:#fff;}
-    .register{background:#3b82f6;color:#fff;}
-    .error{color:red;text-align:center;margin-top:10px;}
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #1f6fff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      background: #1a5ad7;
+    }
+
+    .msg {
+      margin-top: 15px;
+      font-size: 14px;
+    }
   </style>
 </head>
 
 <body>
 
   <div class="card">
-    <h2>Giriş / Qeydiyyat</h2>
+    <h1>MAXITO</h1>
 
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Şifrə">
 
-    <button class="login" id="loginBtn">Giriş</button>
-    <button class="register" id="registerBtn">Qeydiyyat</button>
+    <button onclick="register()">Qeydiyyat</button>
+    <button onclick="login()">Daxil ol</button>
 
-    <div class="error" id="error"></div>
+    <div class="msg" id="message"></div>
   </div>
 
-  <!-- HƏR ŞEY EYNİ MODULE İÇİNDƏ -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
     import {
       getAuth,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
     } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
       authDomain: "maxito-4a9ba.firebaseapp.com",
       projectId: "maxito-4a9ba",
-      storageBucket: "maxito-4a9ba.appspot.com",
+      storageBucket: "maxito-4a9ba.firebasestorage.app",
       messagingSenderId: "360260172818",
       appId: "1:360260172818:web:9d766a06c775cd7c64accb"
     };
@@ -82,20 +98,36 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    const errorBox = document.getElementById("error");
-
-    document.getElementById("loginBtn").onclick = () => {
-      const email = email.value;
-      const password = password.value;
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => alert("Uğurla giriş edildi"))
-        .catch(e => errorBox.textContent = e.message);
-    };
-
-    document.getElementById("registerBtn").onclick = () => {
-      const email = email.value;
-      const password = password.value;
+    window.register = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => alert("
+        .then(() => {
+          document.getElementById("message").innerText =
+            "Qeydiyyat uğurludur ✅";
+        })
+        .catch((error) => {
+          document.getElementById("message").innerText =
+            error.message;
+        });
+    };
+
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          document.getElementById("message").innerText =
+            "Giriş uğurludur 🎉";
+        })
+        .catch((error) => {
+          document.getElementById("message").innerText =
+            error.message;
+        });
+    };
+  </script>
+
+</body>
+</html>
