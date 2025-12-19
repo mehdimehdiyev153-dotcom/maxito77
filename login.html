@@ -14,7 +14,7 @@
 body{
   margin:0;
   height:100vh;
-  background:#040a2a; /* TAM TÜND GÖY */
+  background:#040a2a;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -39,7 +39,6 @@ body{
   box-shadow:0 25px 60px rgba(0,0,0,.65);
 }
 
-/* MAXITO LOGO */
 .logo{
   font-size:48px;
   font-weight:900;
@@ -53,7 +52,6 @@ body{
     0 10px 18px rgba(0,0,0,.8);
 }
 
-/* INPUTLAR */
 input{
   width:100%;
   padding:16px;
@@ -61,14 +59,8 @@ input{
   border-radius:16px;
   border:none;
   font-size:16px;
-  outline:none;
 }
 
-input::placeholder{
-  color:#666;
-}
-
-/* DAXİL OL BUTTON */
 button{
   width:100%;
   padding:16px;
@@ -85,7 +77,6 @@ button:active{
   transform:scale(.97);
 }
 
-/* ALT YAZI */
 .footer-text{
   margin-top:22px;
   font-size:14px;
@@ -106,16 +97,12 @@ button:active{
 
       <div class="logo">Maxito</div>
 
-      <!-- TELEFON NÖMRƏSİ -->
       <input type="tel" placeholder="Telefon nömrəsi (+994...)" />
-
-      <!-- ŞİFRƏ -->
       <input type="password" placeholder="Şifrə" />
 
       <!-- DAXİL OL -->
-      <button>Daxil ol</button>
+      <button onclick="login()">Daxil ol</button>
 
-      <!-- QEYDİYYAT YAZISI -->
       <div class="footer-text">
         Hesabınız yoxdursa,
         <a href="register.html">qeydiyyatdan keçin</a>
@@ -123,5 +110,14 @@ button:active{
 
     </div>
   </div>
+
+<script>
+function login(){
+  // hələlik birbaşa keçid
+  window.location.href = "index.html"; 
+  // istəsən: home.html edə bilərsən
+}
+</script>
+
 </body>
 </html>
