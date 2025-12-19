@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<title>MAXITO | Referal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:radial-gradient(circle at top,#0a1a3a,#020617);
+  color:#fff;
+}
+
+.container{
+  max-width:500px;
+  margin:60px auto;
+  background:rgba(255,255,255,0.05);
+  padding:30px;
+  border-radius:18px;
+  box-shadow:0 0 30px rgba(78,161,255,0.4);
+  text-align:center;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:900;
+  color:#4ea1ff;
+  text-shadow:0 0 20px #4ea1ff;
+  margin-bottom:20px;
+}
+
+h2{
+  margin-bottom:10px;
+  color:#9bb7ff;
+}
+
+.ref-box{
+  background:#020b25;
+  padding:15px;
+  border-radius:12px;
+  margin:20px 0;
+  word-break:break-all;
+  border:1px solid #4ea1ff;
+}
+
+button{
+  background:linear-gradient(90deg,#1b4fff,#3aa0ff);
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+  color:#fff;
+  cursor:pointer;
+  font-size:15px;
+  box-shadow:0 0 15px rgba(58,160,255,0.6);
+}
+
+button:hover{
+  opacity:.9;
+}
+
+.stats{
+  margin-top:25px;
+  display:flex;
+  justify-content:space-around;
+}
+
+.stat{
+  background:rgba(255,255,255,0.05);
+  padding:15px;
+  border-radius:12px;
+  width:40%;
+}
+
+.stat h3{
+  margin:0;
+  font-size:14px;
+  color:#9bb7ff;
+}
+
+.stat p{
+  margin-top:8px;
+  font-size:22px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="logo">MAXITO</div>
+
+  <h2>Referal dəvət et</h2>
+  <p>Dostlarını dəvət et, xal qazan 🎁</p>
+
+  <div class="ref-box" id="refLink">Yüklənir...</div>
+
+  <button onclick="copyLink()">Linki kopyala</button>
+
+  <div class="stats">
+    <div class="stat">
+      <h3>Referal sayı</h3>
+      <p id="refCount">0</p>
+    </div>
+    <div class="stat">
+      <h3>Qazanılan xal</h3>
+      <p id="refPoints">0</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* NORMALDA UID FIREBASE-DƏN GƏLƏCƏK */
+const userUID = "MAX123ABC"; // nümunə UID
+
+const baseUrl = "https://sənin-saytın/index.html";
+const referralLink = `${baseUrl}?ref=${userUID}`;
+
+document.getElementById("refLink").innerText = referralLink;
+
+// nümunə statistika (sonra Firebase-dən gələcək)
+document.getElementById("refCount").innerText = 3;
+document.getElementById("refPoints").innerText = 600;
+
+function copyLink(){
+  navigator.clipboard.writeText(referralLink);
+  alert("Referal link kopyalandı!");
+}
+</script>
+
+</body>
+</html>
