@@ -3,55 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Any Unboxing | Maxito</title>
+<title>Maxito</title>
 
 <style>
 body {
   margin: 0;
-  background: #f7b500;
+  height: 100vh;
+  background: #0b1c2d;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+/* LOGO */
+.top {
+  margin-top: 60px;
   text-align: center;
 }
 
-.logo-area {
-  margin-top: 50px;
+.top img {
+  width: 120px;
+  margin-bottom: 10px;
 }
 
-.logo-area img {
-  width: 110px;
+.top h1 {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 2px;
 }
 
-.logo-area h2 {
-  margin: 10px 0 30px;
-  font-weight: bold;
-  color: #000;
-}
-
-.container {
+/* LOGIN BOX */
+.login-box {
   width: 90%;
   max-width: 400px;
-  margin: auto;
+  margin-bottom: 60px;
 }
 
 input {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   margin: 10px 0;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   font-size: 16px;
 }
 
 button {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   margin-top: 10px;
   background: #000;
   color: #fff;
   border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: bold;
 }
 
 #recaptcha-container {
@@ -62,17 +71,18 @@ button {
 
 <body>
 
-<div class="logo-area">
-  <!-- BURADA ŞİR LOGOSU -->
-  <img src="lion-logo.png" alt="Maxito Lion Logo">
-  <h2>Maxito</h2>
+<!-- YUXARI HISSƏ -->
+<div class="top">
+  <img src="lion-logo.png" alt="Maxito Lion">
+  <h1>Maxito</h1>
 </div>
 
-<div class="container">
+<!-- AŞAĞI HISSƏ -->
+<div class="login-box">
   <input type="text" id="phone" placeholder="+994501234567">
   <button id="sendCode">Kod göndər</button>
 
-  <input type="text" id="code" placeholder="SMS kodu">
+  <input type="text" id="code" placeholder="Giriş kodu">
   <button id="verifyCode">Daxil ol</button>
 
   <div id="recaptcha-container"></div>
@@ -105,7 +115,7 @@ document.getElementById("sendCode").onclick = () => {
   signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
     .then(result => {
       confirmationResult = result;
-      alert("SMS göndərildi");
+      alert("Kod göndərildi");
     })
     .catch(err => alert(err.message));
 };
@@ -113,10 +123,7 @@ document.getElementById("sendCode").onclick = () => {
 document.getElementById("verifyCode").onclick = () => {
   const code = document.getElementById("code").value;
   confirmationResult.confirm(code)
-    .then(() => {
-      alert("Giriş uğurlu");
-      // BURADA istəsən əsas səhifəyə yönləndirə bilərik
-    })
+    .then(() => alert("Giriş uğurlu"))
     .catch(() => alert("Kod yanlışdır"));
 };
 </script>
