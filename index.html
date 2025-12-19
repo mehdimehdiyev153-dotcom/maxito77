@@ -1,116 +1,78 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maxito</title>
+  <meta charset="UTF-8">
+  <title>Maxito | Giriş</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-*{
-  box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-}
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #020b2d;
+      font-family: Arial, sans-serif;
+    }
 
-body{
-  margin:0;
-  height:100vh;
-  background:#040a2a; /* TAM TÜND GÖY */
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+    .card {
+      background: #0b1a4a;
+      padding: 30px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.5);
+      text-align: center;
+    }
 
-.app{
-  width:100%;
-  max-width:420px;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+    h1 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
 
-.card{
-  width:90%;
-  background:rgba(255,255,255,0.08);
-  border-radius:24px;
-  padding:42px 26px;
-  text-align:center;
-  backdrop-filter:blur(14px);
-  box-shadow:0 25px 60px rgba(0,0,0,.65);
-}
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+    }
 
-/* MAXITO – QALIN + QABARIQ */
-.logo{
-  font-size:48px;
-  font-weight:900; /* EXTRA QALIN */
-  color:#ffffff;
-  margin-bottom:24px;
-  letter-spacing:1.5px;
-  text-shadow:
-    0 2px 0 #cfd6ff,
-    0 4px 0 #9aa6ff,
-    0 6px 0 #6f7cff,
-    0 10px 18px rgba(0,0,0,.8);
-}
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #1f6bff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-select{
-  width:100px;
-  padding:10px;
-  border-radius:14px;
-  border:none;
-  margin-bottom:30px;
-  font-size:15px;
-  font-weight:600;
-}
-
-/* DÜYMƏLƏR */
-button{
-  width:100%;
-  padding:16px;
-  margin-bottom:16px;
-  border:none;
-  border-radius:18px;
-  font-size:17px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-/* DAXİL OL */
-.btn-login{
-  background:#ffffff;
-  color:#000;
-}
-
-/* QEYDİYYAT */
-.btn-register{
-  background:transparent;
-  color:#ffffff;
-  border:2px solid rgba(255,255,255,0.6);
-}
-
-button:active{
-  transform:scale(.97);
-}
-</style>
+    p {
+      color: #ccc;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="app">
-    <div class="card">
 
-      <div class="logo">Maxito</div>
+  <div class="card">
+    <h1>Maxito</h1>
 
-      <select>
-        <option>AZ</option>
-        <option>EN</option>
-        <option>TR</option>
-      </select>
+    <form action="home.html">
+      <input type="tel" placeholder="Telefon nömrəsi" required>
+      <input type="password" placeholder="Şifrə" required>
+      <button type="submit">Daxil ol</button>
+    </form>
 
-      <!-- DÜYMƏLƏR BURDADIR -->
-      <button class="btn-login">Daxil ol</button>
-      <button class="btn-register">Qeydiyyat</button>
-
-    </div>
+    <p>Hesabınız yoxdursa, qeydiyyatdan keçin</p>
   </div>
+
 </body>
 </html>
