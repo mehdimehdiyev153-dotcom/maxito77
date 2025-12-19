@@ -1,132 +1,99 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maxito</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Maxito</title>
 
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: #0b1c2d;
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  color: #fff;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-/* LOGO */
-.top {
-  margin-top: 60px;
-  text-align: center;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #6a6ff5, #7b5cff);
+    }
 
-.top img {
-  width: 120px;
-  margin-bottom: 10px;
-}
+    .card {
+      width: 90%;
+      max-width: 360px;
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 18px;
+      padding: 30px 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
 
-.top h1 {
-  font-size: 42px;
-  font-weight: 900;
-  letter-spacing: 2px;
-}
+    /* QABARIQ MAXITO */
+    .logo {
+      font-size: 42px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+      text-shadow:
+        0 1px 0 #ccc,
+        0 2px 0 #bfbfbf,
+        0 3px 0 #b0b0b0,
+        0 4px 6px rgba(0,0,0,0.4);
+    }
 
-/* LOGIN BOX */
-.login-box {
-  width: 90%;
-  max-width: 400px;
-  margin-bottom: 60px;
-}
+    select {
+      width: 80px;
+      padding: 6px;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
 
-input {
-  width: 100%;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 12px;
-  border: none;
-  font-size: 16px;
-}
+    .btn {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-button {
-  width: 100%;
-  padding: 15px;
-  margin-top: 10px;
-  background: #000;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 17px;
-  font-weight: bold;
-}
+    .btn-login {
+      background: #ffffff;
+      color: #000;
+    }
 
-#recaptcha-container {
-  margin-top: 15px;
-}
-</style>
+    .btn-register {
+      background: #ffffff;
+      color: #000;
+      opacity: 0.95;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- YUXARI HISSƏ -->
-<div class="top">
-  <img src="lion-logo.png" alt="Maxito Lion">
-  <h1>Maxito</h1>
-</div>
+  <div class="card">
+    <div class="logo">Maxito</div>
 
-<!-- AŞAĞI HISSƏ -->
-<div class="login-box">
-  <input type="text" id="phone" placeholder="+994501234567">
-  <button id="sendCode">Kod göndər</button>
+    <select>
+      <option>AZ</option>
+      <option>EN</option>
+      <option>TR</option>
+    </select>
 
-  <input type="text" id="code" placeholder="Giriş kodu">
-  <button id="verifyCode">Daxil ol</button>
-
-  <div id="recaptcha-container"></div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
-  authDomain: "maxito-1cb81.firebaseapp.com",
-  projectId: "maxito-1cb81",
-  storageBucket: "maxito-1cb81.firebasestorage.app",
-  messagingSenderId: "536049935284",
-  appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-  size: "normal"
-});
-
-let confirmationResult;
-
-document.getElementById("sendCode").onclick = () => {
-  const phone = document.getElementById("phone").value;
-  signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
-    .then(result => {
-      confirmationResult = result;
-      alert("Kod göndərildi");
-    })
-    .catch(err => alert(err.message));
-};
-
-document.getElementById("verifyCode").onclick = () => {
-  const code = document.getElementById("code").value;
-  confirmationResult.confirm(code)
-    .then(() => alert("Giriş uğurlu"))
-    .catch(() => alert("Kod yanlışdır"));
-};
-</script>
+    <button class="btn btn-login">Giriş</button>
+    <button class="btn btn-register">Qeydiyyatdan keç</button>
+  </div>
 
 </body>
 </html>
