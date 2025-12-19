@@ -15,124 +15,89 @@
 
     body {
       height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       color: #fff;
-    }
-
-    /* DİL SEÇİMİ */
-    .lang-switch {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
-
-    .lang-switch button {
-      background: transparent;
-      border: 1px solid #fff;
-      color: #fff;
-      padding: 6px 12px;
-      margin-left: 5px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: 0.3s;
-    }
-
-    .lang-switch button:hover {
-      background: #fff;
-      color: #000;
     }
 
     .container {
-      width: 100%;
-      max-width: 420px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
       text-align: center;
-      padding: 40px 20px;
     }
 
-    .logo {
-      font-size: 36px;
-      font-weight: bold;
-      margin-bottom: 50px;
-      opacity: 0.85;
+    h1 {
+      margin-bottom: 20px;
     }
 
-    .welcome h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
+    .lang-select {
+      margin-bottom: 20px;
     }
 
-    .welcome p {
-      font-size: 15px;
-      opacity: 0.8;
-      margin-bottom: 40px;
+    select {
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
     }
 
-    .buttons a {
+    a.button {
       display: block;
-      width: 100%;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 30px;
       text-decoration: none;
-      font-size: 16px;
+      background: #fff;
+      color: #333;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
       font-weight: bold;
       transition: 0.3s;
     }
 
-    .login {
-      background: #00c6ff;
-      color: #000;
-    }
-
-    .register {
-      background: #ff9800;
-      color: #000;
+    a.button:hover {
+      background: #ddd;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- DİL SEÇİMİ -->
-  <div class="lang-switch">
-    <button onclick="setLang('az')">AZ</button>
-    <button onclick="setLang('en')">EN</button>
-  </div>
-
   <div class="container">
+    <h1>Maxito</h1>
 
-    <div class="logo" id="logoText">Maxito</div>
-
-    <div class="welcome">
-      <h2 id="titleText">Xoş gəlmisiniz</h2>
-      <p id="descText">Bir kliklə daxil olun və ya qeydiyyatdan keçin</p>
+    <!-- Dil seçimi -->
+    <div class="lang-select">
+      <select>
+        <option>AZ</option>
+        <option>EN</option>
+        <option>RU</option>
+      </select>
     </div>
 
-    <div class="buttons">
-      <a href="login.html" class="login" id="loginBtn">Giriş</a>
-      <a href="register.html" class="register" id="registerBtn">Qeydiyyatdan keçin</a>
-    </div>
-
+    <!-- Düymələr -->
+    <a href="login.html" class="button">Giriş</a>
+    <a href="register.html" class="button">Qeydiyyatdan keç</a>
   </div>
 
-  <script>
-    function setLang(lang) {
-      if (lang === 'en') {
-        document.getElementById("titleText").innerText = "Welcome";
-        document.getElementById("descText").innerText = "Log in or create a new account";
-        document.getElementById("loginBtn").innerText = "Login";
-        document.getElementById("registerBtn").innerText = "Register";
-      } else {
-        document.getElementById("titleText").innerText = "Xoş gəlmisiniz";
-        document.getElementById("descText").innerText = "Bir kliklə daxil olun və ya qeydiyyatdan keçin";
-        document.getElementById("loginBtn").innerText = "Giriş";
-        document.getElementById("registerBtn").innerText = "Qeydiyyatdan keçin";
-      }
-    }
+  <!-- 🔥 FIREBASE SCRIPT (ƏLAVƏ OLUNDU) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB24sYMS0csMn9K6JMKMUsuEOxHFUxVlKk",
+      authDomain: "maxito-1cb81.firebaseapp.com",
+      projectId: "maxito-1cb81",
+      storageBucket: "maxito-1cb81.firebasestorage.app",
+      messagingSenderId: "536049935284",
+      appId: "1:536049935284:web:99fdf9a5dbf627dea5c8e1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    console.log("Firebase qoşuldu ✅");
   </script>
 
 </body>
