@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <title>Maxito | Giriş</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #0b1d4a, #020b2d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 380px;
+      background: #06124a;
+      padding: 35px 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      font-size: 28px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-top: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .otp-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button {
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1e90ff, #0066ff);
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    #otpSection {
+      display: none;
+    }
+
+    #recaptcha-container {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>MAXITO</h1>
+
+    <!-- Telefon -->
+    <input type="tel" id="phone" placeholder="+994XXXXXXXXX">
+
+    <!-- OTP göndər -->
+    <button onclick="sendOTP()">Kodu göndər</button>
+
+    <!-- OTP bölməsi -->
+    <div id="otpSection">
+      <div class="otp-row">
+        <input type="text" id="otp" placeholder="OTP kodu">
+        <button onclick="verifyOTP()">GET</button>
+      </div>
+    </div>
+
+    <div id="recaptcha-container"></div>
+  </div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import {
+    getAuth,
+    signInWithPhoneNumber,
+    RecaptchaVerifier,
+    setPersistence,
+    browserLocalPersistence,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+  // 🔹 Firebase config (SƏNİN VERDİYİN)
+  const firebaseConfig = {
+    apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
+    authDomain: "maxito-4a9ba.firebaseapp.com",
+    projectId: "maxito-4a9ba",
+    storageBucket: "maxito-4a9ba.firebasestorage.app",
+    messagingSenderId: "360260172818",
+    appId: "1:360260172818:web:9d766a06c775cd7c64accb"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // 🔐 Girişi yadda saxla (bir dəfə OTP)
+  setPersistence(auth, browserLocalPersistence);
+
+  // artıq login olubsa → keç (sonradan home.html qoşa bilərik)
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("Artıq giriş edilib");
+    }
+  });
+
+  // reCAPTCHA (görünməz)
+  window.recaptchaVerifier = new RecaptchaVerifier(
+    auth,
+    "recaptcha-container",
+    { size: "invisible" }
+  );
+
+  // OTP göndər
+  window.sendOTP = async () => {
+    const phone = document.getElementById("phone").value;
+    if (!phone) {
+      alert("Telefon nömrəsi yaz");
+      return;
+    }
+
+    try {
+      window.confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phone,
+        window.recaptchaVerifier
+      );
+      document.getElementById("otpSection").style.display = "block";
+      alert("OTP kod göndərildi");
+    } catch (err) {
+      alert("Xəta: " + err.message);
+    }
+  };
+
+  // OTP təsdiq
+  window.verifyOTP = async () => {
+    const code = document.getElementById("otp").value;
+    if (!code) {
+      alert("OTP kodu yaz");
+      return;
+    }
+
+    try {
+      await window.confirmationResult.confirm(code);
+      alert("Uğurla daxil oldun ✅");
+      // burda sonra home.html-ə yönləndirə bilərik
+    } catch (err) {
+      alert("Yanlış OTP");
+    }
+  };
+</script>
+
+</body>
+</html>
