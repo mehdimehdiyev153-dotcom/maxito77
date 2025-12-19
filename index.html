@@ -22,6 +22,30 @@
       color: #fff;
     }
 
+    /* DİL SEÇİMİ */
+    .lang-switch {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .lang-switch button {
+      background: transparent;
+      border: 1px solid #fff;
+      color: #fff;
+      padding: 6px 12px;
+      margin-left: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+
+    .lang-switch button:hover {
+      background: #fff;
+      color: #000;
+    }
+
     .container {
       width: 100%;
       max-width: 420px;
@@ -29,7 +53,6 @@
       padding: 40px 20px;
     }
 
-    /* YUXARI */
     .logo {
       font-size: 36px;
       font-weight: bold;
@@ -37,7 +60,6 @@
       opacity: 0.85;
     }
 
-    /* ORTA */
     .welcome h2 {
       font-size: 24px;
       margin-bottom: 10px;
@@ -49,7 +71,6 @@
       margin-bottom: 40px;
     }
 
-    /* AŞAĞI */
     .buttons a {
       display: block;
       width: 100%;
@@ -67,39 +88,52 @@
       color: #000;
     }
 
-    .login:hover {
-      background: #00a8d6;
-    }
-
     .register {
       background: #ff9800;
       color: #000;
-    }
-
-    .register:hover {
-      background: #e68900;
     }
   </style>
 </head>
 
 <body>
+
+  <!-- DİL SEÇİMİ -->
+  <div class="lang-switch">
+    <button onclick="setLang('az')">AZ</button>
+    <button onclick="setLang('en')">EN</button>
+  </div>
+
   <div class="container">
 
-    <!-- YUXARI -->
-    <div class="logo">Maxito</div>
+    <div class="logo" id="logoText">Maxito</div>
 
-    <!-- ORTA -->
     <div class="welcome">
-      <h2>Xoş gəlmisiniz</h2>
-      <p>Bir kliklə daxil olun və ya qeydiyyatdan keçin</p>
+      <h2 id="titleText">Xoş gəlmisiniz</h2>
+      <p id="descText">Bir kliklə daxil olun və ya qeydiyyatdan keçin</p>
     </div>
 
-    <!-- AŞAĞI -->
     <div class="buttons">
-      <a href="login.html" class="login">Giriş</a>
-      <a href="register.html" class="register">Qeydiyyatdan keçin</a>
+      <a href="login.html" class="login" id="loginBtn">Giriş</a>
+      <a href="register.html" class="register" id="registerBtn">Qeydiyyatdan keçin</a>
     </div>
 
   </div>
+
+  <script>
+    function setLang(lang) {
+      if (lang === 'en') {
+        document.getElementById("titleText").innerText = "Welcome";
+        document.getElementById("descText").innerText = "Log in or create a new account";
+        document.getElementById("loginBtn").innerText = "Login";
+        document.getElementById("registerBtn").innerText = "Register";
+      } else {
+        document.getElementById("titleText").innerText = "Xoş gəlmisiniz";
+        document.getElementById("descText").innerText = "Bir kliklə daxil olun və ya qeydiyyatdan keçin";
+        document.getElementById("loginBtn").innerText = "Giriş";
+        document.getElementById("registerBtn").innerText = "Qeydiyyatdan keçin";
+      }
+    }
+  </script>
+
 </body>
 </html>
