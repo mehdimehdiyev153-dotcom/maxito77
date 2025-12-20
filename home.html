@@ -151,5 +151,30 @@ body {
   © 2025 Maxito • Bütün hüquqlar qorunur
 </div>
 
+<!-- 🔒 FIREBASE QORUMA -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
+    authDomain: "maxito-4a9ba.firebaseapp.com",
+    projectId: "maxito-4a9ba",
+    storageBucket: "maxito-4a9ba.firebasestorage.app",
+    messagingSenderId: "360260172818",
+    appId: "1:360260172818:web:9d766a06c775cd7c64accb"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // 🔐 LOGIN YOXDURSA → INDEX-Ə AT
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = "index.html";
+    }
+  });
+</script>
+
 </body>
 </html>
