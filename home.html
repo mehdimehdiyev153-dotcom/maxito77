@@ -117,7 +117,9 @@ body {
 
 <!-- MENU -->
 <div class="menu">
-  <button onclick="location.href='anketler.html'">📝 Anketlər</button>
+  <!-- 🔥 BURDA DƏYİŞİKLİK VAR -->
+  <button onclick="location.href='survey.php'">📝 Anketlər</button>
+
   <button onclick="location.href='ads.html'">📺 Reklam izlə</button>
   <button onclick="location.href='games.html'">🎮 Oyun oyna, xal qazan</button>
   <button onclick="location.href='referal.html'">👥 Referal</button>
@@ -136,7 +138,6 @@ body {
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-  // 🔥 SƏNİN FIREBASE CONFIG (INDEX.HTML-DƏKİ İLƏ EYNİ)
   const firebaseConfig = {
     apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
     authDomain: "maxito-4a9ba.firebaseapp.com",
@@ -150,7 +151,6 @@ body {
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // 🔹 BALANSI FIRESTORE-DAN OXU
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = "index.html";
