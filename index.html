@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
   <meta charset="UTF-8">
-  <title>Maxito</title>
+  <title>Maxito | Giriş</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -12,14 +12,21 @@
       background: #0b0b0f;
       color: #fff;
     }
-    .container { max-width: 420px; margin: auto; padding: 20px; }
-    h1 { text-align: center; color: #00ffe7; text-shadow: 0 0 15px #00ffe7; }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #00ffe7;
+      text-shadow: 0 0 15px #00ffe7;
+    }
     .card {
       background: #111;
       border-radius: 15px;
       padding: 20px;
       box-shadow: 0 0 20px rgba(0,255,231,0.15);
-      margin-bottom: 20px;
     }
     input {
       width: 100%;
@@ -41,8 +48,10 @@
       background: linear-gradient(90deg, #00ffe7, #00b3ff);
       color: #000;
     }
-    .hidden { display: none; }
-    .neon-text { color: #00ffe7; text-shadow: 0 0 10px #00ffe7; }
+    p {
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -50,20 +59,12 @@
 <div class="container">
   <h1>MAXITO</h1>
 
-  <div id="authBox" class="card">
+  <div class="card">
     <input type="email" id="email" placeholder="E-mail">
     <input type="password" id="password" placeholder="Şifrə">
     <button class="btn" onclick="register()">Qeydiyyat</button>
     <button class="btn" onclick="login()">Giriş</button>
     <p id="authMsg"></p>
-  </div>
-
-  <div id="panel" class="hidden">
-    <div class="card">
-      <p>Xoş gəldin 👋</p>
-      <p>Balans: <span class="neon-text" id="balance">0</span> xal</p>
-    </div>
-    <button class="btn" onclick="logout()">Çıxış</button>
   </div>
 </div>
 
@@ -73,10 +74,8 @@
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
+    onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-
   import {
     getFirestore,
     doc,
@@ -95,23 +94,22 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // 🔐 DEVICE ID
+  // DEVICE ID
   let deviceId = localStorage.getItem("deviceId");
   if (!deviceId) {
     deviceId = crypto.randomUUID();
     localStorage.setItem("deviceId", deviceId);
   }
 
-  // ⏱️ 24 SAAT LIMIT
   const DAY = 24 * 60 * 60 * 1000;
 
   window.register = async () => {
     try {
       const deviceRef = doc(db, "devices", deviceId);
-      const deviceSnap = await getDoc(deviceRef);
+      const snap = await getDoc(deviceRef);
 
-      if (deviceSnap.exists()) {
-        const last = deviceSnap.data().lastRegister?.toMillis();
+      if (snap.exists()) {
+        const last = snap.data().lastRegister?.toMillis();
         if (last && Date.now() - last < DAY) {
           authMsg.innerText = "Bu cihazdan bu gün artıq qeydiyyat edilib ⛔";
           return;
@@ -134,8 +132,6 @@
         lastRegister: serverTimestamp()
       });
 
-      authMsg.innerText = "Qeydiyyat uğurla tamamlandı ✅";
-
     } catch (e) {
       authMsg.innerText = e.message;
     }
@@ -149,17 +145,10 @@
     }
   };
 
-  window.logout = () => signOut(auth);
-
-  onAuthStateChanged(auth, async user => {
+  // DAXİL OLAN KİMİ HOME.HTML
+  onAuthStateChanged(auth, user => {
     if (user) {
-      authBox.classList.add("hidden");
-      panel.classList.remove("hidden");
-      const snap = await getDoc(doc(db, "users", user.uid));
-      balance.innerText = snap.exists() ? snap.data().balance : 0;
-    } else {
-      panel.classList.add("hidden");
-      authBox.classList.remove("hidden");
+      window.location.href = "home.html";
     }
   });
 </script>
