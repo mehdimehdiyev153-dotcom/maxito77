@@ -84,6 +84,29 @@ body{
   transform:scale(1.04);
   box-shadow:0 0 28px rgba(0,234,255,.6);
 }
+
+/* BOTTOM BUTTONS */
+.bottom-left, .bottom-right{
+  position:fixed;
+  bottom:15px;
+}
+
+.bottom-left{
+  left:15px;
+}
+
+.bottom-right{
+  right:15px;
+}
+
+.bottom-btn{
+  background:#0f2b5c;
+  padding:12px 14px;
+  border-radius:50%;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 0 15px rgba(0,234,255,.4);
+}
 </style>
 </head>
 
@@ -95,7 +118,6 @@ body{
     💸 Çıxarış
   </div>
 
-  <!-- BALANCE LINK -->
   <div class="points" onclick="location.href='balance.html'">
     💎 0 XAL
   </div>
@@ -110,16 +132,26 @@ body{
 
 <!-- ACTIONS -->
 <div class="actions">
-  <button onclick="location.href='survey.html'">📝 Anket İzlə</button>
+  <button onclick="location.href='survey.html'">📝 Anketlər</button>
   <button onclick="location.href='ads.html'">📺 Reklam İzlə</button>
   <button onclick="location.href='games.html'">🎮 Oyun Oyna Qazan</button>
   <button onclick="location.href='referral.html'">👥 Referal</button>
 </div>
 
-<!-- 🔒 AUTH PROTECTION -->
+<!-- BOTTOM LEFT - LOGOUT -->
+<div class="bottom-left">
+  <div class="bottom-btn" onclick="logout()">🚪</div>
+</div>
+
+<!-- BOTTOM RIGHT - INFO -->
+<div class="bottom-right">
+  <div class="bottom-btn" onclick="info()">ℹ️</div>
+</div>
+
+<!-- 🔒 FIREBASE AUTH -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
@@ -138,6 +170,16 @@ body{
       window.location.href="index.html";
     }
   });
+
+  window.logout = function(){
+    signOut(auth).then(()=>{
+      window.location.href="index.html";
+    });
+  }
+
+  window.info = function(){
+    alert("MAXITO – Xal topla, tapşırıqları yerinə yetir və qazanc əldə et.\nMinimum çıxarış: 5000 XAL\n1000 XAL = 1 AZN");
+  }
 </script>
 
 </body>
