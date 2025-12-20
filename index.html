@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
   <meta charset="UTF-8">
-  <title>Maxito | Daxil ol</title>
+  <title>Maxito | Giriş</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -25,10 +25,16 @@
 
     h1 {
       margin-top: 40px;
-      margin-bottom: 80px; /* 🔽 formu aşağı salır */
+      margin-bottom: 10px;
       color: #00ffe7;
       text-shadow: 0 0 15px #00ffe7;
       font-size: 36px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 70px; /* formu aşağı salır */
     }
 
     .card {
@@ -52,7 +58,7 @@
     .btn {
       width: 100%;
       padding: 15px;
-      margin-top: 18px;
+      margin-top: 14px;
       border-radius: 30px;
       border: none;
       cursor: pointer;
@@ -62,32 +68,44 @@
       color: #000;
     }
 
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid #00ffe7;
+      color: #00ffe7;
+      margin-top: 10px;
+    }
+
     #authMsg {
       margin-top: 15px;
-      color: #ff8c8c;
       font-size: 14px;
+      color: #ff8c8c;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- YUXARIDA QALIR -->
   <h1>MAXITO</h1>
+  <div class="subtitle">saytımıza xoş gəlmisiniz ☺️</div>
 
-  <!-- AŞAĞIDA -->
   <div class="card">
     <input type="email" id="email" placeholder="E-mail">
     <input type="password" id="password" placeholder="Şifrə">
-    <button class="btn" onclick="login()">Daxil ol</button>
+
+    <button class="btn" onclick="register()">Qeydiyyat</button>
+    <button class="btn secondary" onclick="login()">Daxil ol</button>
+
     <div id="authMsg"></div>
   </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from
-    "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "API_KEY",
@@ -98,6 +116,21 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  window.register = async () => {
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      );
+      authMsg.style.color = "#7CFFB2";
+      authMsg.innerText = "Qeydiyyat uğurludur ✅ İndi daxil ola bilərsiniz";
+    } catch (e) {
+      authMsg.style.color = "#ff8c8c";
+      authMsg.innerText = e.message;
+    }
+  };
+
   window.login = async () => {
     try {
       await signInWithEmailAndPassword(
@@ -107,6 +140,7 @@
       );
       window.location.href = "home.html";
     } catch (e) {
+      authMsg.style.color = "#ff8c8c";
       authMsg.innerText = "E-mail və ya şifrə yanlışdır ❌";
     }
   };
