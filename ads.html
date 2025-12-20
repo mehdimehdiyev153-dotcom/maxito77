@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reklam İzlə | Maxito</title>
+<style>
+body{margin:0;font-family:Segoe UI;background:#050f2a;color:#fff;text-align:center}
+.card{margin:60px auto;max-width:360px;background:#0f2b5c;padding:25px;border-radius:20px}
+button{margin-top:20px;padding:14px 26px;border:none;border-radius:16px;font-weight:700}
+</style>
+</head>
+<body>
+<h1>📺 Reklam İzlə</h1>
+<div class="card">
+<p>Reklamlar yaxın zamanda aktiv olacaq.</p>
+<p>İzlədikcə bonus xallar əldə edə biləcəksiniz.</p>
+</div>
+<button onclick="location.href='home.html'">⬅ Geri</button>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+const app=initializeApp({apiKey:"AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",authDomain:"maxito-4a9ba.firebaseapp.com",projectId:"maxito-4a9ba"});
+onAuthStateChanged(getAuth(app),u=>{if(!u)location.href="index.html"});
+</script>
+</body></html>
