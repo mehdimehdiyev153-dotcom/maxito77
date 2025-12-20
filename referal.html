@@ -62,23 +62,41 @@
     <a class="back" href="home.html">⬅ Home-a qayıt</a>
   </div>
 
-  <script>
-    // USER ID (home.html-dən gəlir)
-    let userId = localStorage.getItem("userId");
+  <!-- 🔥 FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-    if (!userId) {
-      // əgər yoxdursa random yaradılır
-      userId = "U" + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem("userId", userId);
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
+      authDomain: "maxito-4a9ba.firebaseapp.com",
+      projectId: "maxito-4a9ba",
+      storageBucket: "maxito-4a9ba.firebasestorage.app",
+      messagingSenderId: "360260172818",
+      appId: "1:360260172818:web:9d766a06c775cd7c64accb"
+    };
 
-    const refUrl = window.location.origin + "/index.html?ref=" + userId;
-    document.getElementById("refLink").value = refUrl;
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    function copyLink() {
-      navigator.clipboard.writeText(refUrl);
-      alert("Referal link kopyalandı ✅");
-    }
+    // 🔒 Giriş yoxdursa geri at
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      // ✅ REAL REFERAL LINK (Firebase UID)
+      const refUrl =
+        window.location.origin + "/index.html?ref=" + user.uid;
+
+      document.getElementById("refLink").value = refUrl;
+
+      window.copyLink = () => {
+        navigator.clipboard.writeText(refUrl);
+        alert("Referal link kopyalandı ✅");
+      };
+    });
   </script>
 
 </body>
