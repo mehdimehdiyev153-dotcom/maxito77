@@ -102,8 +102,8 @@ body {
     💸 Çıxarış
   </div>
 
-  <!-- XAL KEÇİDİ -->
-  <div class="balance" onclick="location.href='balance.html'">
+  <!-- BALANS -->
+  <div class="balance" id="balance" onclick="location.href='balance.html'">
     Xal: 0
   </div>
 </div>
@@ -117,9 +117,7 @@ body {
 
 <!-- MENU -->
 <div class="menu">
-  <!-- DÜZƏLİŞ BURDADIR -->
   <button onclick="location.href='anketler.html'">📝 Anketlər</button>
-
   <button onclick="location.href='ads.html'">📺 Reklam izlə</button>
   <button onclick="location.href='games.html'">🎮 Oyun oyna, xal qazan</button>
   <button onclick="location.href='referal.html'">👥 Referal</button>
@@ -131,6 +129,43 @@ body {
   <button onclick="location.href='index.html'">🚪 Çıxış</button>
   <button onclick="location.href='info.html'">ℹ️</button>
 </div>
+
+<!-- 🔥 FIREBASE BALANS OXUMA -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+  // 🔥 SƏNİN FIREBASE CONFIG (INDEX.HTML-DƏKİ İLƏ EYNİ)
+  const firebaseConfig = {
+    apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
+    authDomain: "maxito-4a9ba.firebaseapp.com",
+    projectId: "maxito-4a9ba",
+    storageBucket: "maxito-4a9ba.firebasestorage.app",
+    messagingSenderId: "360260172818",
+    appId: "1:360260172818:web:9d766a06c775cd7c64accb"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // 🔹 BALANSI FIRESTORE-DAN OXU
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    const ref = doc(db, "users", user.uid);
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) {
+      const xal = snap.data().balance || 0;
+      document.getElementById("balance").innerText = "Xal: " + xal;
+    }
+  });
+</script>
 
 </body>
 </html>
