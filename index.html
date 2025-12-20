@@ -15,14 +15,12 @@
       display: flex;
       justify-content: center;
     }
-
     .container {
       width: 100%;
       max-width: 420px;
       padding: 20px;
       text-align: center;
     }
-
     h1 {
       margin-top: 40px;
       margin-bottom: 10px;
@@ -30,20 +28,17 @@
       text-shadow: 0 0 15px #00ffe7;
       font-size: 36px;
     }
-
     .subtitle {
       font-size: 14px;
       color: #aaa;
       margin-bottom: 70px;
     }
-
     .card {
       background: #111;
       padding: 25px;
       border-radius: 18px;
       box-shadow: 0 0 25px rgba(0,255,231,0.18);
     }
-
     input {
       width: 100%;
       padding: 14px;
@@ -54,7 +49,6 @@
       color: #fff;
       font-size: 15px;
     }
-
     .btn {
       width: 100%;
       padding: 15px;
@@ -67,14 +61,12 @@
       background: linear-gradient(90deg, #00ffe7, #00b3ff);
       color: #000;
     }
-
     .btn.secondary {
       background: transparent;
       border: 1px solid #00ffe7;
       color: #00ffe7;
       margin-top: 10px;
     }
-
     #authMsg {
       margin-top: 15px;
       font-size: 14px;
@@ -82,8 +74,8 @@
     }
   </style>
 </head>
-<body>
 
+<body>
 <div class="container">
   <h1>MAXITO</h1>
   <div class="subtitle">saytımıza xoş gəlmisiniz ☺️</div>
@@ -101,21 +93,13 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
-  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    serverTimestamp,
-    increment
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+    from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+  import { 
+    getFirestore, doc, setDoc, getDocs, query, collection, where, serverTimestamp 
   } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-  // 🔹 Firebase config (SƏNİN)
+  // 🔥 Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
     authDomain: "maxito-4a9ba.firebaseapp.com",
@@ -129,41 +113,54 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // 🔗 REFERAL KODU URL-DƏN OXU
-  const params = new URLSearchParams(window.location.search);
-  const refCode = params.get("ref");
-
-  if (refCode) {
-    localStorage.setItem("referral", refCode);
+  // 🔐 DEVICE ID (1 cihaz ≈ 1 hesab)
+  let deviceId = localStorage.getItem("deviceId");
+  if (!deviceId) {
+    deviceId = "dev-" + crypto.randomUUID();
+    localStorage.setItem("deviceId", deviceId);
   }
+
+  // 🔗 REFERAL OXU
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get("ref");
+  if (ref) localStorage.setItem("referral", ref);
 
   // 🟢 Qeydiyyat
   window.register = async () => {
     try {
+      // cihaz artıq istifadə olunubmu?
+      const q = query(
+        collection(db, "users"),
+        where("deviceId", "==", deviceId)
+      );
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        authMsg.innerText = "Bu cihazdan artıq hesab açılıb ❌";
+        return;
+      }
+
       const res = await createUserWithEmailAndPassword(
         auth,
         email.value,
         password.value
       );
 
-      const userId = res.user.uid;
-      const savedRef = localStorage.getItem("referral");
+      const uid = res.user.uid;
+      const referral = localStorage.getItem("referral");
 
-      // istifadəçi sənədi
-      await setDoc(doc(db, "users", userId), {
+      await setDoc(doc(db, "users", uid), {
         balance: 0,
-        referralCode: userId.substring(0, 6),
-        referredBy: savedRef || null,
+        deviceId: deviceId,
+        referralCode: uid.substring(0, 6),
+        referredBy: referral || null,
         createdAt: serverTimestamp()
       });
 
+      localStorage.removeItem("referral");
       authMsg.style.color = "#7CFFB2";
       authMsg.innerText = "Qeydiyyat uğurludur ✅";
 
-      localStorage.removeItem("referral");
-
     } catch (e) {
-      authMsg.style.color = "#ff8c8c";
       authMsg.innerText = e.message;
     }
   };
@@ -171,18 +168,12 @@
   // 🔵 Login
   window.login = async () => {
     try {
-      await signInWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
+      await signInWithEmailAndPassword(auth, email.value, password.value);
       window.location.href = "home.html";
-    } catch (e) {
-      authMsg.style.color = "#ff8c8c";
+    } catch {
       authMsg.innerText = "E-mail və ya şifrə yanlışdır ❌";
     }
   };
 </script>
-
 </body>
 </html>
