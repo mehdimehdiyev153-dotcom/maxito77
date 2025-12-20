@@ -1,121 +1,131 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <title>Maxito | Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maxito | Home</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f0f1a;
-      color: #fff;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b1d3a;
+  color: #fff;
+}
 
-    header {
-      text-align: center;
-      padding: 20px;
-      font-size: 22px;
-      font-weight: bold;
-    }
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+}
 
-    .subtitle {
-      font-size: 14px;
-      opacity: 0.7;
-      margin-top: 5px;
-    }
+.header .withdraw {
+  font-size: 14px;
+  cursor: pointer;
+  color: #00eaff;
+}
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      padding: 20px;
-    }
+.header .balance {
+  font-size: 14px;
+  font-weight: bold;
+  color: #00ffcc;
+}
 
-    .btn {
-      background: linear-gradient(135deg, #6a5cff, #9b5cff);
-      border: none;
-      border-radius: 14px;
-      padding: 20px;
-      font-size: 16px;
-      font-weight: bold;
-      color: white;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+/* Center */
+.center {
+  text-align: center;
+  margin-top: 40px;
+}
 
-    .btn:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
-    }
+.center h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+  color: #00eaff;
+  text-shadow: 0 0 15px rgba(0,234,255,0.9);
+}
 
-    .bottom-left,
-    .bottom-right {
-      position: fixed;
-      bottom: 15px;
-    }
+.center p {
+  margin: 5px 0;
+  opacity: 0.9;
+}
 
-    .bottom-left {
-      left: 15px;
-    }
+/* Menu */
+.menu {
+  max-width: 420px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
 
-    .bottom-right {
-      right: 15px;
-    }
+.menu button {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 14px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00ffe7, #00b3ff);
+  color: #000;
+}
 
-    .small-btn {
-      background: #222;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 20px;
-      color: white;
-      cursor: pointer;
-    }
-  </style>
+/* Bottom icons */
+.bottom {
+  position: fixed;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.bottom button {
+  background: transparent;
+  border: 1px solid #00eaff;
+  color: #00eaff;
+  padding: 10px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    Maxito
-    <div class="subtitle">saytımıza xoş gəlmisiniz ☺️</div>
-  </header>
-
-  <div class="container">
-    <button class="btn" onclick="go('anketler.html')">📋 Anketlər</button>
-    <button class="btn" onclick="go('reklam.html')">🎥 Reklam izlə</button>
-
-    <button class="btn" onclick="go('oyun.html')">🎮 Oyun oyna</button>
-    <button class="btn" onclick="go('cixarish.html')">💳 Çıxarış</button>
-
-    <button class="btn" onclick="go('referal.html')">👥 Referal</button>
-    <button class="btn" onclick="go('sosial.html')">🌐 Sosial şəbəkə</button>
-
-    <button class="btn" onclick="go('balance.html')">💰 Balans</button>
+<!-- HEADER -->
+<div class="header">
+  <div class="withdraw" onclick="location.href='withdraw.html'">
+    💸 Çıxarış
   </div>
-
-  <!-- Çıxış -->
-  <div class="bottom-left">
-    <button class="small-btn" onclick="logout()">⎋</button>
+  <div class="balance">
+    Xal: 0
   </div>
+</div>
 
-  <!-- Info -->
-  <div class="bottom-right">
-    <button class="small-btn" onclick="go('info.html')">i</button>
-  </div>
+<!-- CENTER -->
+<div class="center">
+  <h1>MAXITO</h1>
+  <p>Xoş gəlmisiniz</p>
+  <p>Bizimlə xal toplayın və qazanın</p>
+</div>
 
-  <script>
-    function go(page) {
-      window.location.href = page;
-    }
+<!-- MENU -->
+<div class="menu">
+  <button onclick="location.href='surveys.html'">📝 Anketlər</button>
+  <button onclick="location.href='ads.html'">📺 Reklam izlə</button>
+  <button onclick="location.href='games.html'">🎮 Oyun oyna, xal qazan</button>
+  <button onclick="location.href='referal.html'">👥 Referal</button>
+  <button onclick="location.href='social.html'">🌐 Sosial Şəbəkə</button>
+</div>
 
-    function logout() {
-      window.location.href = "index.html";
-    }
-  </script>
+<!-- BOTTOM -->
+<div class="bottom">
+  <button onclick="location.href='index.html'">🚪 Çıxış</button>
+  <button onclick="location.href='info.html'">ℹ️</button>
+</div>
 
 </body>
 </html>
