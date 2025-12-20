@@ -34,7 +34,7 @@
     .subtitle {
       font-size: 14px;
       color: #aaa;
-      margin-bottom: 70px; /* formu aşağı salır */
+      margin-bottom: 70px;
     }
 
     .card {
@@ -77,8 +77,8 @@
 
     #authMsg {
       margin-top: 15px;
-      font-size: 14px;
-      color: #ff8c8c;
+      font-size: 15px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -90,7 +90,7 @@
 
   <div class="card">
     <input type="email" id="email" placeholder="E-mail">
-    <input type="password" id="password" placeholder="Şifrə">
+    <input type="password" id="password" placeholder="Şifrə (min. 6 simvol)">
 
     <button class="btn" onclick="register()">Qeydiyyat</button>
     <button class="btn secondary" onclick="login()">Daxil ol</button>
@@ -107,37 +107,46 @@
     signInWithEmailAndPassword
   } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
+  // FIREBASE CONFIG (SƏNİN REAL CONFIG)
   const firebaseConfig = {
-    apiKey: "API_KEY",
-    authDomain: "PROJECT.firebaseapp.com",
-    projectId: "PROJECT_ID"
+    apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
+    authDomain: "maxito-4a9ba.firebaseapp.com",
+    projectId: "maxito-4a9ba",
+    storageBucket: "maxito-4a9ba.firebasestorage.app",
+    messagingSenderId: "360260172818",
+    appId: "1:360260172818:web:9d766a06c775cd7c64accb"
   };
 
+  // INIT
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const authMsg = document.getElementById("authMsg");
+
+  // QEYDİYYAT
   window.register = async () => {
+    if (!email.value || !password.value) {
+      authMsg.style.color = "#ff8c8c";
+      authMsg.innerText = "Zəhmət olmasa bütün sahələri doldurun ❗";
+      return;
+    }
+
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
+      await createUserWithEmailAndPassword(auth, email.value, password.value);
       authMsg.style.color = "#7CFFB2";
-      authMsg.innerText = "Qeydiyyat uğurludur ✅ İndi daxil ola bilərsiniz";
+      authMsg.innerText = "QEYDİYYAT UĞURLUDUR ✅";
     } catch (e) {
       authMsg.style.color = "#ff8c8c";
       authMsg.innerText = e.message;
     }
   };
 
+  // GİRİŞ
   window.login = async () => {
     try {
-      await signInWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
+      await signInWithEmailAndPassword(auth, email.value, password.value);
       window.location.href = "home.html";
     } catch (e) {
       authMsg.style.color = "#ff8c8c";
