@@ -1,25 +1,119 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Referal | Maxito</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maxito | Referal</title>
+
 <style>
-body{margin:0;font-family:Segoe UI;background:#050f2a;color:#fff;text-align:center}
-.card{margin:60px auto;max-width:360px;background:#0f2b5c;padding:25px;border-radius:20px}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1d3a;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #07162f;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 0 25px rgba(0,234,255,0.35);
+  text-align: center;
+}
+
+h1 {
+  color: #00eaff;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.ref-box {
+  background: #000;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  word-break: break-all;
+  margin: 15px 0;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00ffe7, #00b3ff);
+  color: #000;
+}
+
+.back {
+  margin-top: 15px;
+  background: transparent;
+  border: 1px solid #00eaff;
+  color: #00eaff;
+}
 </style>
 </head>
+
 <body>
-<h1>👥 Referal</h1>
+
 <div class="card">
-<p>Dostlarını dəvət et, bonus xallar qazan.</p>
-<p>Referal linki yaxın zamanda aktiv olacaq.</p>
+  <h1>Referal Qazancı</h1>
+  <p>Dostlarını dəvət et, xal qazan</p>
+
+  <div class="ref-box" id="refLink">
+    Referal link yüklənir...
+  </div>
+
+  <button id="copyBtn">Referal linki kopyala</button>
+  <button class="back" onclick="window.location.href='home.html'">
+    Geri qayıt
+  </button>
 </div>
-<button onclick="location.href='home.html'">⬅ Geri</button>
 
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-const app=initializeApp({apiKey:"AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",authDomain:"maxito-4a9ba.firebaseapp.com",projectId:"maxito-4a9ba"});
-onAuthStateChanged(getAuth(app),u=>{if(!u)location.href="index.html"});
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from
+  "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "API_KEY",
+  authDomain: "PROJECT_ID.firebaseapp.com",
+  projectId: "PROJECT_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  const referralLink =
+    `https://SENIN-SAYTIN/index.html?ref=${user.uid}`;
+
+  document.getElementById("refLink").innerText = referralLink;
+
+  document.getElementById("copyBtn").onclick = () => {
+    navigator.clipboard.writeText(referralLink);
+    alert("Referal link kopyalandı ✅");
+  };
+});
 </script>
-</body></html>
+
+</body>
+</html>
