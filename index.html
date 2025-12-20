@@ -5,7 +5,6 @@
   <title>Maxito</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- NEON STYLE -->
   <style>
     body {
       margin: 0;
@@ -13,19 +12,8 @@
       background: #0b0b0f;
       color: #fff;
     }
-
-    .container {
-      max-width: 420px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #00ffe7;
-      text-shadow: 0 0 15px #00ffe7;
-    }
-
+    .container { max-width: 420px; margin: auto; padding: 20px; }
+    h1 { text-align: center; color: #00ffe7; text-shadow: 0 0 15px #00ffe7; }
     .card {
       background: #111;
       border-radius: 15px;
@@ -33,18 +21,15 @@
       box-shadow: 0 0 20px rgba(0,255,231,0.15);
       margin-bottom: 20px;
     }
-
     input {
       width: 100%;
       padding: 12px;
       margin: 8px 0;
       border-radius: 10px;
       border: none;
-      outline: none;
       background: #1c1c1c;
       color: #fff;
     }
-
     .btn {
       width: 100%;
       padding: 14px;
@@ -53,46 +38,18 @@
       border: none;
       cursor: pointer;
       font-size: 16px;
-      color: #000;
       background: linear-gradient(90deg, #00ffe7, #00b3ff);
-      box-shadow: 0 0 15px #00ffe7;
+      color: #000;
     }
-
-    .btn:hover {
-      opacity: 0.85;
-    }
-
-    .menu {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .menu button {
-      flex: 1;
-      background: #1b1b1b;
-      color: #00ffe7;
-      border: 1px solid #00ffe7;
-      border-radius: 15px;
-      padding: 10px;
-      box-shadow: 0 0 10px #00ffe733;
-    }
-
     .hidden { display: none; }
-
-    .neon-text {
-      color: #00ffe7;
-      text-shadow: 0 0 10px #00ffe7;
-    }
+    .neon-text { color: #00ffe7; text-shadow: 0 0 10px #00ffe7; }
   </style>
 </head>
 <body>
 
 <div class="container">
-
   <h1>MAXITO</h1>
 
-  <!-- LOGIN / REGISTER -->
   <div id="authBox" class="card">
     <input type="email" id="email" placeholder="Gmail">
     <input type="password" id="password" placeholder="Şifrə">
@@ -101,40 +58,15 @@
     <p id="authMsg"></p>
   </div>
 
-  <!-- MAIN PANEL -->
   <div id="panel" class="hidden">
-
     <div class="card">
       <p>Xoş gəldin 👋</p>
       <p>Balans: <span class="neon-text" id="balance">0</span> xal</p>
     </div>
-
-    <div class="menu">
-      <button onclick="showSection('home')">🏠 Home</button>
-      <button onclick="showSection('ref')">👥 Referal</button>
-      <button onclick="showSection('withdraw')">💸 Çıxarış</button>
-    </div>
-
-    <div id="home" class="card">
-      <p>Tapşırıqları yerinə yetir və xal qazan 💎</p>
-    </div>
-
-    <div id="ref" class="card hidden">
-      <p>Referal linkin:</p>
-      <p class="neon-text" id="refLink"></p>
-    </div>
-
-    <div id="withdraw" class="card hidden">
-      <p>Minimum çıxarış: 10 000 xal</p>
-      <button class="btn">Sorğu göndər</button>
-    </div>
-
     <button class="btn" onclick="logout()">Çıxış</button>
   </div>
-
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
   import {
@@ -150,33 +82,62 @@
     getFirestore,
     doc,
     setDoc,
-    getDoc
+    getDoc,
+    serverTimestamp
   } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-  // 🔴 BURANI DƏYİŞ
   const firebaseConfig = {
     apiKey: "API_KEY",
     authDomain: "PROJECT.firebaseapp.com",
-    projectId: "PROJECT_ID",
+    projectId: "PROJECT_ID"
   };
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  window.register = async () => {
-    const email = email.value;
-    const pass = password.value;
-    try {
-      const userCred = await createUserWithEmailAndPassword(auth, email, pass);
-      await sendEmailVerification(userCred.user);
+  // 🔐 DEVICE ID
+  let deviceId = localStorage.getItem("deviceId");
+  if (!deviceId) {
+    deviceId = crypto.randomUUID();
+    localStorage.setItem("deviceId", deviceId);
+  }
 
-      await setDoc(doc(db, "users", userCred.user.uid), {
+  // ⏱️ 24 SAAT LIMIT (ms)
+  const DAY = 24 * 60 * 60 * 1000;
+
+  window.register = async () => {
+    const emailVal = email.value;
+    const passVal = password.value;
+
+    try {
+      // 🔍 DEVICE YOXLA
+      const deviceSnap = await getDoc(doc(db, "devices", deviceId));
+      if (deviceSnap.exists()) {
+        const last = deviceSnap.data().lastRegister?.toMillis();
+        if (last && Date.now() - last < DAY) {
+          authMsg.innerText = "Bu telefondan artıq qeydiyyat edilib ⛔";
+          return;
+        }
+      }
+
+      const cred = await createUserWithEmailAndPassword(auth, emailVal, passVal);
+      await sendEmailVerification(cred.user);
+
+      // 👤 USER DATA
+      await setDoc(doc(db, "users", cred.user.uid), {
         balance: 0,
-        ref: userCred.user.uid.slice(0, 6)
+        deviceId: deviceId,
+        createdAt: serverTimestamp()
       });
 
-      authMsg.innerText = "Email doğrulama linki göndərildi 📩";
+      // 📱 DEVICE DATA
+      await setDoc(doc(db, "devices", deviceId), {
+        lastRegister: serverTimestamp()
+      });
+
+      authMsg.innerText = "Emailə doğrulama linki göndərildi 📩";
+
     } catch (e) {
       authMsg.innerText = e.message;
     }
@@ -196,20 +157,13 @@
     if (user && user.emailVerified) {
       authBox.classList.add("hidden");
       panel.classList.remove("hidden");
-
       const snap = await getDoc(doc(db, "users", user.uid));
       balance.innerText = snap.data().balance;
-      refLink.innerText = location.origin + "/?ref=" + snap.data().ref;
     } else {
       panel.classList.add("hidden");
       authBox.classList.remove("hidden");
     }
   });
-
-  window.showSection = id => {
-    ["home","ref","withdraw"].forEach(s => document.getElementById(s).classList.add("hidden"));
-    document.getElementById(id).classList.remove("hidden");
-  };
 </script>
 
 </body>
