@@ -1,173 +1,121 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maxito | Home</title>
+  <meta charset="UTF-8">
+  <title>Maxito | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  margin:0;
-  font-family:'Segoe UI',sans-serif;
-  background:#050f2a;
-  color:#fff;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+    }
 
-/* TOP BAR */
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 20px;
-}
+    header {
+      text-align: center;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-.withdraw{
-  background:#ff3b3b;
-  padding:10px 16px;
-  border-radius:12px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-}
+    .subtitle {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-top: 5px;
+    }
 
-.points{
-  background:#0f2b5c;
-  padding:10px 16px;
-  border-radius:12px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-}
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      padding: 20px;
+    }
 
-/* CENTER */
-.center{
-  text-align:center;
-  margin-top:40px;
-  padding:0 20px;
-}
+    .btn {
+      background: linear-gradient(135deg, #6a5cff, #9b5cff);
+      border: none;
+      border-radius: 14px;
+      padding: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-.center h1{
-  font-size:42px;
-  margin-bottom:10px;
-  color:#00eaff;
-  text-shadow:0 0 18px rgba(0,234,255,.9);
-}
+    .btn:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
 
-.center p{
-  margin:6px 0;
-  opacity:.85;
-}
+    .bottom-left,
+    .bottom-right {
+      position: fixed;
+      bottom: 15px;
+    }
 
-/* ACTIONS */
-.actions{
-  max-width:360px;
-  margin:40px auto;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
+    .bottom-left {
+      left: 15px;
+    }
 
-.actions button{
-  padding:16px;
-  border:none;
-  border-radius:18px;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
-  background:linear-gradient(135deg,#0f2b5c,#08162f);
-  color:#fff;
-  box-shadow:0 0 18px rgba(0,234,255,.25);
-  transition:.3s;
-}
+    .bottom-right {
+      right: 15px;
+    }
 
-.actions button:hover{
-  transform:scale(1.04);
-  box-shadow:0 0 28px rgba(0,234,255,.6);
-}
-
-/* BOTTOM BUTTONS */
-.bottom-left,.bottom-right{
-  position:fixed;
-  bottom:15px;
-}
-
-.bottom-left{ left:15px; }
-.bottom-right{ right:15px; }
-
-.bottom-btn{
-  background:#0f2b5c;
-  padding:12px 14px;
-  border-radius:50%;
-  font-size:16px;
-  cursor:pointer;
-  box-shadow:0 0 15px rgba(0,234,255,.4);
-}
-</style>
+    .small-btn {
+      background: #222;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- TOP -->
-<div class="top">
-  <div class="withdraw" onclick="location.href='withdraw.html'">💸 Çıxarış</div>
-  <div class="points" onclick="location.href='balance.html'">💎 0 XAL</div>
-</div>
+  <header>
+    Maxito
+    <div class="subtitle">saytımıza xoş gəlmisiniz ☺️</div>
+  </header>
 
-<!-- CENTER -->
-<div class="center">
-  <h1>MAXITO</h1>
-  <p>Xoş gəlmisiniz</p>
-  <p>Bizimlə xal toplayın və qazanın</p>
-</div>
+  <div class="container">
+    <button class="btn" onclick="go('anketler.html')">📋 Anketlər</button>
+    <button class="btn" onclick="go('reklam.html')">🎥 Reklam izlə</button>
 
-<!-- ACTION BUTTONS -->
-<div class="actions">
-  <button onclick="location.href='survey.html'">📝 Anketlər</button>
-  <button onclick="location.href='ads.html'">📺 Reklam İzlə</button>
-  <button onclick="location.href='games.html'">🎮 Oyun Oyna • Xal Topla</button>
-  <button onclick="location.href='referral.html'">👥 Referal</button>
-  <button onclick="location.href='social.html'">🌐 Sosial Şəbəkə ilə Xal Qazan</button>
-</div>
+    <button class="btn" onclick="go('oyun.html')">🎮 Oyun oyna</button>
+    <button class="btn" onclick="go('cixarish.html')">💳 Çıxarış</button>
 
-<!-- LOGOUT -->
-<div class="bottom-left">
-  <div class="bottom-btn" onclick="logout()">🚪</div>
-</div>
+    <button class="btn" onclick="go('referal.html')">👥 Referal</button>
+    <button class="btn" onclick="go('sosial.html')">🌐 Sosial şəbəkə</button>
 
-<!-- INFO -->
-<div class="bottom-right">
-  <div class="bottom-btn" onclick="location.href='info.html'">ℹ️</div>
-</div>
+    <button class="btn" onclick="go('balance.html')">💰 Balans</button>
+  </div>
 
-<!-- 🔒 FIREBASE AUTH -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+  <!-- Çıxış -->
+  <div class="bottom-left">
+    <button class="small-btn" onclick="logout()">⎋</button>
+  </div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
-  authDomain: "maxito-4a9ba.firebaseapp.com",
-  projectId: "maxito-4a9ba",
-  storageBucket: "maxito-4a9ba.firebasestorage.app",
-  messagingSenderId: "360260172818",
-  appId: "1:360260172818:web:9d766a06c775cd7c64accb"
-};
+  <!-- Info -->
+  <div class="bottom-right">
+    <button class="small-btn" onclick="go('info.html')">i</button>
+  </div>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+  <script>
+    function go(page) {
+      window.location.href = page;
+    }
 
-onAuthStateChanged(auth,(user)=>{
-  if(!user){
-    window.location.href="index.html";
-  }
-});
-
-window.logout = function(){
-  signOut(auth).then(()=>{
-    window.location.href="index.html";
-  });
-}
-</script>
+    function logout() {
+      window.location.href = "index.html";
+    }
+  </script>
 
 </body>
 </html>
