@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
   <meta charset="UTF-8">
-  <title>Maxito | Giriş</title>
+  <title>Maxito | Daxil ol</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -11,78 +11,83 @@
       font-family: Arial, sans-serif;
       background: #0b0b0f;
       color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
     }
+
     .container {
+      width: 100%;
       max-width: 420px;
-      margin: auto;
       padding: 20px;
-    }
-    h1 {
       text-align: center;
+    }
+
+    h1 {
+      margin-top: 40px;
+      margin-bottom: 80px; /* 🔽 formu aşağı salır */
       color: #00ffe7;
       text-shadow: 0 0 15px #00ffe7;
+      font-size: 36px;
     }
+
     .card {
       background: #111;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 0 20px rgba(0,255,231,0.15);
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 0 25px rgba(0,255,231,0.18);
     }
+
     input {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 10px;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 12px;
       border: none;
       background: #1c1c1c;
       color: #fff;
+      font-size: 15px;
     }
+
     .btn {
       width: 100%;
-      padding: 14px;
-      margin-top: 10px;
+      padding: 15px;
+      margin-top: 18px;
       border-radius: 30px;
       border: none;
       cursor: pointer;
       font-size: 16px;
+      font-weight: bold;
       background: linear-gradient(90deg, #00ffe7, #00b3ff);
       color: #000;
     }
-    p {
-      text-align: center;
-      margin-top: 10px;
+
+    #authMsg {
+      margin-top: 15px;
+      color: #ff8c8c;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- YUXARIDA QALIR -->
   <h1>MAXITO</h1>
 
+  <!-- AŞAĞIDA -->
   <div class="card">
     <input type="email" id="email" placeholder="E-mail">
     <input type="password" id="password" placeholder="Şifrə">
-    <button class="btn" onclick="register()">Qeydiyyat</button>
-    <button class="btn" onclick="login()">Giriş</button>
-    <p id="authMsg"></p>
+    <button class="btn" onclick="login()">Daxil ol</button>
+    <div id="authMsg"></div>
   </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword } from
+    "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "API_KEY",
@@ -92,65 +97,19 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db = getFirestore(app);
 
-  // DEVICE ID
-  let deviceId = localStorage.getItem("deviceId");
-  if (!deviceId) {
-    deviceId = crypto.randomUUID();
-    localStorage.setItem("deviceId", deviceId);
-  }
-
-  const DAY = 24 * 60 * 60 * 1000;
-
-  window.register = async () => {
+  window.login = async () => {
     try {
-      const deviceRef = doc(db, "devices", deviceId);
-      const snap = await getDoc(deviceRef);
-
-      if (snap.exists()) {
-        const last = snap.data().lastRegister?.toMillis();
-        if (last && Date.now() - last < DAY) {
-          authMsg.innerText = "Bu cihazdan bu gün artıq qeydiyyat edilib ⛔";
-          return;
-        }
-      }
-
-      const cred = await createUserWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
         email.value,
         password.value
       );
-
-      await setDoc(doc(db, "users", cred.user.uid), {
-        balance: 0,
-        deviceId,
-        createdAt: serverTimestamp()
-      });
-
-      await setDoc(deviceRef, {
-        lastRegister: serverTimestamp()
-      });
-
-    } catch (e) {
-      authMsg.innerText = e.message;
-    }
-  };
-
-  window.login = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email.value, password.value);
-    } catch (e) {
-      authMsg.innerText = e.message;
-    }
-  };
-
-  // DAXİL OLAN KİMİ HOME.HTML
-  onAuthStateChanged(auth, user => {
-    if (user) {
       window.location.href = "home.html";
+    } catch (e) {
+      authMsg.innerText = "E-mail və ya şifrə yanlışdır ❌";
     }
-  });
+  };
 </script>
 
 </body>
