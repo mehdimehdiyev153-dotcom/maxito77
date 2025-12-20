@@ -58,13 +58,13 @@ body{
   opacity:.85;
 }
 
-/* ACTION BUTTONS */
+/* ACTIONS */
 .actions{
   max-width:360px;
   margin:40px auto;
   display:flex;
   flex-direction:column;
-  gap:15px;
+  gap:14px;
 }
 
 .actions button{
@@ -86,18 +86,13 @@ body{
 }
 
 /* BOTTOM BUTTONS */
-.bottom-left, .bottom-right{
+.bottom-left,.bottom-right{
   position:fixed;
   bottom:15px;
 }
 
-.bottom-left{
-  left:15px;
-}
-
-.bottom-right{
-  right:15px;
-}
+.bottom-left{ left:15px; }
+.bottom-right{ right:15px; }
 
 .bottom-btn{
   background:#0f2b5c;
@@ -114,13 +109,8 @@ body{
 
 <!-- TOP -->
 <div class="top">
-  <div class="withdraw" onclick="location.href='withdraw.html'">
-    💸 Çıxarış
-  </div>
-
-  <div class="points" onclick="location.href='balance.html'">
-    💎 0 XAL
-  </div>
+  <div class="withdraw" onclick="location.href='withdraw.html'">💸 Çıxarış</div>
+  <div class="points" onclick="location.href='balance.html'">💎 0 XAL</div>
 </div>
 
 <!-- CENTER -->
@@ -130,12 +120,13 @@ body{
   <p>Bizimlə xal toplayın və qazanın</p>
 </div>
 
-<!-- ACTIONS -->
+<!-- ACTION BUTTONS -->
 <div class="actions">
   <button onclick="location.href='survey.html'">📝 Anketlər</button>
   <button onclick="location.href='ads.html'">📺 Reklam İzlə</button>
-  <button onclick="location.href='games.html'">🎮 Oyun Oyna Qazan</button>
+  <button onclick="location.href='games.html'">🎮 Oyun Oyna • Xal Topla</button>
   <button onclick="location.href='referral.html'">👥 Referal</button>
+  <button onclick="location.href='social.html'">🌐 Sosial Şəbəkə ilə Xal Qazan</button>
 </div>
 
 <!-- LOGOUT -->
