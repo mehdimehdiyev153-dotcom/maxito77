@@ -21,7 +21,7 @@ body{
   padding:15px 20px;
 }
 
-.top .withdraw{
+.withdraw{
   background:#ff3b3b;
   padding:10px 16px;
   border-radius:12px;
@@ -30,12 +30,13 @@ body{
   cursor:pointer;
 }
 
-.top .points{
+.points{
   background:#0f2b5c;
   padding:10px 16px;
   border-radius:12px;
   font-size:14px;
   font-weight:700;
+  cursor:pointer;
 }
 
 /* CENTER */
@@ -57,7 +58,7 @@ body{
   opacity:.85;
 }
 
-/* BUTTONS */
+/* ACTION BUTTONS */
 .actions{
   max-width:360px;
   margin:40px auto;
@@ -93,7 +94,9 @@ body{
   <div class="withdraw" onclick="location.href='withdraw.html'">
     💸 Çıxarış
   </div>
-  <div class="points">
+
+  <!-- BALANCE LINK -->
+  <div class="points" onclick="location.href='balance.html'">
     💎 0 XAL
   </div>
 </div>
@@ -107,13 +110,13 @@ body{
 
 <!-- ACTIONS -->
 <div class="actions">
-  <button onclick="location.href='survey.html'">📝 Anketlər</button>
+  <button onclick="location.href='survey.html'">📝 Anket İzlə</button>
   <button onclick="location.href='ads.html'">📺 Reklam İzlə</button>
   <button onclick="location.href='games.html'">🎮 Oyun Oyna Qazan</button>
   <button onclick="location.href='referral.html'">👥 Referal</button>
 </div>
 
-<!-- 🔒 QORUMA -->
+<!-- 🔒 AUTH PROTECTION -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
@@ -130,7 +133,7 @@ body{
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  onAuthStateChanged(auth, (user)=>{
+  onAuthStateChanged(auth,(user)=>{
     if(!user){
       window.location.href="index.html";
     }
