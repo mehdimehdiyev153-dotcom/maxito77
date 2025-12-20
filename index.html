@@ -92,88 +92,95 @@
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
-    from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-  import { 
-    getFirestore, doc, setDoc, getDocs, query, collection, where, serverTimestamp 
-  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
+  from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import {
+  getFirestore, doc, setDoc, getDocs, getDoc,
+  query, collection, where, serverTimestamp,
+  updateDoc, increment
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-  // 🔥 Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
-    authDomain: "maxito-4a9ba.firebaseapp.com",
-    projectId: "maxito-4a9ba",
-    storageBucket: "maxito-4a9ba.firebasestorage.app",
-    messagingSenderId: "360260172818",
-    appId: "1:360260172818:web:9d766a06c775cd7c64accb"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
+  authDomain: "maxito-4a9ba.firebaseapp.com",
+  projectId: "maxito-4a9ba",
+  storageBucket: "maxito-4a9ba.firebasestorage.app",
+  messagingSenderId: "360260172818",
+  appId: "1:360260172818:web:9d766a06c775cd7c64accb"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-  // 🔐 DEVICE ID (1 cihaz ≈ 1 hesab)
-  let deviceId = localStorage.getItem("deviceId");
-  if (!deviceId) {
-    deviceId = "dev-" + crypto.randomUUID();
-    localStorage.setItem("deviceId", deviceId);
-  }
+let deviceId = localStorage.getItem("deviceId");
+if (!deviceId) {
+  deviceId = "dev-" + crypto.randomUUID();
+  localStorage.setItem("deviceId", deviceId);
+}
 
-  // 🔗 REFERAL OXU
-  const params = new URLSearchParams(window.location.search);
-  const ref = params.get("ref");
-  if (ref) localStorage.setItem("referral", ref);
+const params = new URLSearchParams(window.location.search);
+const ref = params.get("ref");
+if (ref) localStorage.setItem("referral", ref);
 
-  // 🟢 Qeydiyyat
-  window.register = async () => {
-    try {
-      // cihaz artıq istifadə olunubmu?
-      const q = query(
-        collection(db, "users"),
-        where("deviceId", "==", deviceId)
-      );
-      const snap = await getDocs(q);
-      if (!snap.empty) {
-        authMsg.innerText = "Bu cihazdan artıq hesab açılıb ❌";
-        return;
+window.register = async () => {
+  try {
+    const q = query(
+      collection(db, "users"),
+      where("deviceId", "==", deviceId)
+    );
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      authMsg.innerText = "Bu cihazdan artıq hesab açılıb ❌";
+      return;
+    }
+
+    const res = await createUserWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+
+    const uid = res.user.uid;
+    const referral = localStorage.getItem("referral");
+
+    await setDoc(doc(db, "users", uid), {
+      balance: 0,
+      deviceId: deviceId,
+      referralCode: uid.substring(0, 6),
+      referredBy: referral || null,
+      createdAt: serverTimestamp()
+    });
+
+    // 🔥 REFERAL XAL YAZILIR (YENİ ƏLAVƏ)
+    if (referral) {
+      const refDoc = doc(db, "users", referral);
+      const refSnap = await getDoc(refDoc);
+      if (refSnap.exists()) {
+        await updateDoc(refDoc, {
+          balance: increment(100)
+        });
       }
-
-      const res = await createUserWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
-
-      const uid = res.user.uid;
-      const referral = localStorage.getItem("referral");
-
-      await setDoc(doc(db, "users", uid), {
-        balance: 0,
-        deviceId: deviceId,
-        referralCode: uid.substring(0, 6),
-        referredBy: referral || null,
-        createdAt: serverTimestamp()
-      });
-
       localStorage.removeItem("referral");
-      authMsg.style.color = "#7CFFB2";
-      authMsg.innerText = "Qeydiyyat uğurludur ✅";
-
-    } catch (e) {
-      authMsg.innerText = e.message;
     }
-  };
 
-  // 🔵 Login
-  window.login = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email.value, password.value);
-      window.location.href = "home.html";
-    } catch {
-      authMsg.innerText = "E-mail və ya şifrə yanlışdır ❌";
-    }
-  };
+    authMsg.style.color = "#7CFFB2";
+    authMsg.innerText = "Qeydiyyat uğurludur ✅";
+
+  } catch (e) {
+    authMsg.innerText = e.message;
+  }
+};
+
+window.login = async () => {
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+    window.location.href = "home.html";
+  } catch {
+    authMsg.innerText = "E-mail və ya şifrə yanlışdır ❌";
+  }
+};
 </script>
 </body>
 </html>
