@@ -138,48 +138,44 @@ body{
   <button onclick="location.href='referral.html'">👥 Referal</button>
 </div>
 
-<!-- BOTTOM LEFT - LOGOUT -->
+<!-- LOGOUT -->
 <div class="bottom-left">
   <div class="bottom-btn" onclick="logout()">🚪</div>
 </div>
 
-<!-- BOTTOM RIGHT - INFO -->
+<!-- INFO -->
 <div class="bottom-right">
-  <div class="bottom-btn" onclick="info()">ℹ️</div>
+  <div class="bottom-btn" onclick="location.href='info.html'">ℹ️</div>
 </div>
 
 <!-- 🔒 FIREBASE AUTH -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
-    authDomain: "maxito-4a9ba.firebaseapp.com",
-    projectId: "maxito-4a9ba",
-    storageBucket: "maxito-4a9ba.firebasestorage.app",
-    messagingSenderId: "360260172818",
-    appId: "1:360260172818:web:9d766a06c775cd7c64accb"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
+  authDomain: "maxito-4a9ba.firebaseapp.com",
+  projectId: "maxito-4a9ba",
+  storageBucket: "maxito-4a9ba.firebasestorage.app",
+  messagingSenderId: "360260172818",
+  appId: "1:360260172818:web:9d766a06c775cd7c64accb"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  onAuthStateChanged(auth,(user)=>{
-    if(!user){
-      window.location.href="index.html";
-    }
+onAuthStateChanged(auth,(user)=>{
+  if(!user){
+    window.location.href="index.html";
+  }
+});
+
+window.logout = function(){
+  signOut(auth).then(()=>{
+    window.location.href="index.html";
   });
-
-  window.logout = function(){
-    signOut(auth).then(()=>{
-      window.location.href="index.html";
-    });
-  }
-
-  window.info = function(){
-    alert("MAXITO – Xal topla, tapşırıqları yerinə yetir və qazanc əldə et.\nMinimum çıxarış: 5000 XAL\n1000 XAL = 1 AZN");
-  }
+}
 </script>
 
 </body>
