@@ -77,8 +77,8 @@
 
     #authMsg {
       margin-top: 15px;
-      font-size: 15px;
-      font-weight: bold;
+      font-size: 14px;
+      color: #ff8c8c;
     }
   </style>
 </head>
@@ -90,7 +90,7 @@
 
   <div class="card">
     <input type="email" id="email" placeholder="E-mail">
-    <input type="password" id="password" placeholder="Şifrə (min. 6 simvol)">
+    <input type="password" id="password" placeholder="Şifrə">
 
     <button class="btn" onclick="register()">Qeydiyyat</button>
     <button class="btn secondary" onclick="login()">Daxil ol</button>
@@ -107,7 +107,15 @@
     signInWithEmailAndPassword
   } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-  // FIREBASE CONFIG (SƏNİN REAL CONFIG)
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    serverTimestamp,
+    increment
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+  // 🔹 Firebase config (SƏNİN)
   const firebaseConfig = {
     apiKey: "AIzaSyD721MDcjXXNy7plZ5cDgTLM06TNEoKeuU",
     authDomain: "maxito-4a9ba.firebaseapp.com",
@@ -117,36 +125,57 @@
     appId: "1:360260172818:web:9d766a06c775cd7c64accb"
   };
 
-  // INIT
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
-  const email = document.getElementById("email");
-  const password = document.getElementById("password");
-  const authMsg = document.getElementById("authMsg");
+  // 🔗 REFERAL KODU URL-DƏN OXU
+  const params = new URLSearchParams(window.location.search);
+  const refCode = params.get("ref");
 
-  // QEYDİYYAT
+  if (refCode) {
+    localStorage.setItem("referral", refCode);
+  }
+
+  // 🟢 Qeydiyyat
   window.register = async () => {
-    if (!email.value || !password.value) {
-      authMsg.style.color = "#ff8c8c";
-      authMsg.innerText = "Zəhmət olmasa bütün sahələri doldurun ❗";
-      return;
-    }
-
     try {
-      await createUserWithEmailAndPassword(auth, email.value, password.value);
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      );
+
+      const userId = res.user.uid;
+      const savedRef = localStorage.getItem("referral");
+
+      // istifadəçi sənədi
+      await setDoc(doc(db, "users", userId), {
+        balance: 0,
+        referralCode: userId.substring(0, 6),
+        referredBy: savedRef || null,
+        createdAt: serverTimestamp()
+      });
+
       authMsg.style.color = "#7CFFB2";
-      authMsg.innerText = "QEYDİYYAT UĞURLUDUR ✅";
+      authMsg.innerText = "Qeydiyyat uğurludur ✅";
+
+      localStorage.removeItem("referral");
+
     } catch (e) {
       authMsg.style.color = "#ff8c8c";
       authMsg.innerText = e.message;
     }
   };
 
-  // GİRİŞ
+  // 🔵 Login
   window.login = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email.value, password.value);
+      await signInWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      );
       window.location.href = "home.html";
     } catch (e) {
       authMsg.style.color = "#ff8c8c";
