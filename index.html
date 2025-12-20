@@ -51,7 +51,7 @@
   <h1>MAXITO</h1>
 
   <div id="authBox" class="card">
-    <input type="email" id="email" placeholder="Gmail">
+    <input type="email" id="email" placeholder="E-mail">
     <input type="password" id="password" placeholder="Şifrə">
     <button class="btn" onclick="register()">Qeydiyyat</button>
     <button class="btn" onclick="login()">Giriş</button>
@@ -73,7 +73,6 @@
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    sendEmailVerification,
     onAuthStateChanged,
     signOut
   } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
@@ -103,40 +102,39 @@
     localStorage.setItem("deviceId", deviceId);
   }
 
-  // ⏱️ 24 SAAT LIMIT (ms)
+  // ⏱️ 24 SAAT LIMIT
   const DAY = 24 * 60 * 60 * 1000;
 
   window.register = async () => {
-    const emailVal = email.value;
-    const passVal = password.value;
-
     try {
-      // 🔍 DEVICE YOXLA
-      const deviceSnap = await getDoc(doc(db, "devices", deviceId));
+      const deviceRef = doc(db, "devices", deviceId);
+      const deviceSnap = await getDoc(deviceRef);
+
       if (deviceSnap.exists()) {
         const last = deviceSnap.data().lastRegister?.toMillis();
         if (last && Date.now() - last < DAY) {
-          authMsg.innerText = "Bu telefondan artıq qeydiyyat edilib ⛔";
+          authMsg.innerText = "Bu cihazdan bu gün artıq qeydiyyat edilib ⛔";
           return;
         }
       }
 
-      const cred = await createUserWithEmailAndPassword(auth, emailVal, passVal);
-      await sendEmailVerification(cred.user);
+      const cred = await createUserWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      );
 
-      // 👤 USER DATA
       await setDoc(doc(db, "users", cred.user.uid), {
         balance: 0,
-        deviceId: deviceId,
+        deviceId,
         createdAt: serverTimestamp()
       });
 
-      // 📱 DEVICE DATA
-      await setDoc(doc(db, "devices", deviceId), {
+      await setDoc(deviceRef, {
         lastRegister: serverTimestamp()
       });
 
-      authMsg.innerText = "Emailə doğrulama linki göndərildi 📩";
+      authMsg.innerText = "Qeydiyyat uğurla tamamlandı ✅";
 
     } catch (e) {
       authMsg.innerText = e.message;
@@ -154,11 +152,11 @@
   window.logout = () => signOut(auth);
 
   onAuthStateChanged(auth, async user => {
-    if (user && user.emailVerified) {
+    if (user) {
       authBox.classList.add("hidden");
       panel.classList.remove("hidden");
       const snap = await getDoc(doc(db, "users", user.uid));
-      balance.innerText = snap.data().balance;
+      balance.innerText = snap.exists() ? snap.data().balance : 0;
     } else {
       panel.classList.add("hidden");
       authBox.classList.remove("hidden");
